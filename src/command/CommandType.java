@@ -1,0 +1,16 @@
+package command;
+
+public enum CommandType {
+    CREATE_CLIENT,
+    CREATE_STAFF,
+    DELETE_USER,
+    EDIT_FULL_NAME,
+    VIEW_CLIENTS,
+    CREATE_APPOINTMENT,
+    EDIT_APPOINTMENT,
+    VIEW_APPOINTMENTS,
+
+    EXIT,
+
+    UNDEFINED
+}

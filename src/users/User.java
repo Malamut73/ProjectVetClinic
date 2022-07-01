@@ -1,26 +1,24 @@
-package vetClinic;
+package users;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Objects;
 
-public class Client {
+public abstract class User {
 
-//        public static HashMap<Integer, vetClinic.Client> clients = new HashMap<>();
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         private static int nextId = 1;
-        private final int id;
+        private final int userId;
         private String firstName;
         private String lastName;
         private String middleName;
         private String fullName;
         private Date dateOfRegistration;
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        public Client(String lastName, String firstName, String middleName) {
-                this.id = nextId;
+        public User(String lastName, String firstName, String middleName) {
+                this.userId = nextId;
                 nextId++;
                 this.firstName = firstName;
                 this.lastName = lastName;
@@ -30,23 +28,8 @@ public class Client {
         }
 
 
-
-
-        public void putToClients (HashMap<Integer, Client> hashMap){
-                hashMap.put(this.id, this);
-        }
-
-        public static Client createClient(String lastName, String firstName, String middleName){
-                Client client = new Client(lastName, firstName, middleName);
-                return client;
-        }
-
-
-
-
-
-        public int getId() {
-                return id;
+        public int getUserId() {
+                return userId;
         }
         public String getFullName(){
                 StringBuilder stringBuilder = new StringBuilder();
@@ -74,8 +57,21 @@ public class Client {
                 this.middleName = middleName;
         }
 
+
+
         @Override
         public String toString() {
-                return id + " " + fullName + " " + simpleDateFormat.format(dateOfRegistration);
+                return userId + " " + fullName + " " + simpleDateFormat.format(dateOfRegistration);
+        }
+        @Override
+        public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                User user = (User) o;
+                return Objects.equals(fullName, user.fullName);
+        }
+        @Override
+        public int hashCode() {
+                return Objects.hash(fullName);
         }
 }

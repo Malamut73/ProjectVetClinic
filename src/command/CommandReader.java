@@ -1,0 +1,55 @@
+package command;
+
+import command.executer.*;
+import command.CommandType;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CommandReader {
+    private static final Map<CommandType, CommandExecutor>  COMMAND_EXECUTOR_MAP = Map.of(
+            CommandType.CREATE_CLIENT, new ClientCreator(),
+            CommandType.CREATE_STAFF, new StaffCreator(),
+            CommandType.CREATE_APPOINTMENT, new AppointmentCreator(),
+            CommandType.EDIT_APPOINTMENT, new AppointmentEditor(),
+            CommandType.EDIT_FULL_NAME, new FullNameEditor(),
+            CommandType.VIEW_CLIENTS, new ClientsView(),
+            CommandType.VIEW_APPOINTMENTS, new AppointmentViewer(),
+            CommandType.DELETE_USER, new UserDeleter()
+    );
+
+    public static void startReading(){
+        Scanner scanner = new Scanner(System.in);
+
+        int i = 1;
+        while (i != 0){
+            i = readCommand(scanner);
+        }
+        scanner.close();
+    }
+
+    private static int readCommand(Scanner scanner){
+        var commandString = scanner.nextLine();
+        CommandType commandType = getCommandType(commandString);
+
+        if(COMMAND_EXECUTOR_MAP.containsKey(commandType)){
+            var commandExecutor = COMMAND_EXECUTOR_MAP.get(commandType);
+            return commandExecutor.execute(commandString);
+        }else if(commandType == CommandType.EXIT){
+            return 0;
+        }else{
+            System.out.println("Incorrect command");
+        }
+
+        return -1;
+    }
+
+    private static CommandType getCommandType(String commandString){
+        if(commandString.contains("create client")){
+            return CommandType.CREATE_CLIENT;
+        }
+
+        return CommandType.UNDEFINED;
+    }
+
+
+}
