@@ -14,7 +14,7 @@ public abstract class User {
         private String lastName;
         private String middleName;
         private String fullName;
-        private Date dateOfRegistration;
+        private final Date dateOfRegistration;
 
 
         public User(String lastName, String firstName, String middleName) {
@@ -28,15 +28,8 @@ public abstract class User {
         }
 
 
-        public int getUserId() {
-                return userId;
-        }
         public String getFullName(){
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(getLastName() + " ")
-                        .append(getFirstName() + " ")
-                        .append(getMiddleName());
-                return stringBuilder.toString();
+                return fullName = lastName + " " + firstName + " " + middleName;
         }
         public String getFirstName() {
                 return firstName;

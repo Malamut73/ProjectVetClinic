@@ -16,8 +16,9 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
     protected Optional<User> findUser(String fullName){
         for (User user :
                 userRepository.findAll()) {
-            if(user.getFullName() == fullName){
+            if(user.getFullName().equals(fullName)){
                 return Optional.of(user);
+
             }
         }
         return Optional.empty();

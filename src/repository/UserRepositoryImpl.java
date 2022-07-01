@@ -16,6 +16,7 @@ public class UserRepositoryImpl implements UserRepository{
         return SINGLETON;
     }
 
+    private UserRepositoryImpl(){}
 
     @Override
     public void save(User user) {

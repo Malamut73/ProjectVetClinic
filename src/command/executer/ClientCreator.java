@@ -1,6 +1,7 @@
 package command.executer;
 
 import command.CommandType;
+import repository.UserRepositoryImpl;
 import users.Client;
 import users.User;
 
@@ -23,20 +24,15 @@ public class ClientCreator extends AbstractCommandExecutor{
         var lastName = wordArray[2];
         var firstName = wordArray[3];
         var middleName = wordArray[4];
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(lastName + " ")
-                     .append(firstName + " ")
-                     .append(middleName);
-        String fullName = stringBuilder.toString();
+        var fullName = lastName + " " + firstName + " " + middleName;
+
         if(findUser(fullName).isPresent()){
             System.out.println("Client already exists");
             return -1;
         }
-
         var newClient = new Client(lastName, firstName, middleName);
         userRepository.save(newClient);
 
-        System.out.println(newClient.toString());
         System.out.println(findUser(fullName));
 
         System.out.println("New client was created");

@@ -46,6 +46,10 @@ public class CommandReader {
     private static CommandType getCommandType(String commandString){
         if(commandString.contains("create client")){
             return CommandType.CREATE_CLIENT;
+        }else if(commandString.contains("view clients")){
+            return CommandType.VIEW_CLIENTS;
+        }else if(commandString.contains("create staff")){
+            return CommandType.CREATE_STAFF;
         }
 
         return CommandType.UNDEFINED;
