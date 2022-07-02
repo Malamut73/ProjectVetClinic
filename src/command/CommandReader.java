@@ -54,6 +54,8 @@ public class CommandReader {
             return CommandType.EDIT_FULL_NAME;
         }else if(commandString.contains("create appointment")){
             return CommandType.CREATE_APPOINTMENT;
+        }else if(commandString.contains("change status")){
+            return CommandType.EDIT_APPOINTMENT;
         }
 
         return CommandType.UNDEFINED;

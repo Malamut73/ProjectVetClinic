@@ -1,9 +1,7 @@
 package command.executer;
 
-import command.CommandReader;
 import command.CommandType;
 import users.Appointment.Appointment;
-import users.Appointment.AppointmentType;
 import users.Client;
 import users.Staff;
 import users.User;
@@ -31,14 +29,15 @@ public class AppointmentCreator extends AbstractCommandExecutor{
         var lastName = wordArray[2];
         var firstName = wordArray[3];
         var middleName = wordArray[4];
-        var fullName = lastName + " " + firstName + " " + middleName;
-        //create appointment Rodionov Ivan Vladimirovich to Skitin Artem Mihailovich on 02.07.2022 22:00
+
         var staffLastName = wordArray[6];
         var staffFirstName = wordArray[7];
         var staffMiddleName = wordArray[8];
-        var staffFullName = staffLastName + " " + staffFirstName + " " + staffMiddleName;
 
+        var staffFullName = staffLastName + " " + staffFirstName + " " + staffMiddleName;
+        var fullName = lastName + " " + firstName + " " + middleName;
         String dateOfAppointment = wordArray[10] + " " + wordArray[11];
+        String commandToStatus = wordArray[0] + " " + wordArray[1];
 
         Optional<User> clientCheck = findUser(fullName);
         if(!(clientCheck.isPresent())){
@@ -55,27 +54,25 @@ public class AppointmentCreator extends AbstractCommandExecutor{
                 userRepository.findAll()) {
             if (user.getFullName().equals(fullName)) {
                 lookingUserToCreateAppointment = (Client)user;
-//                System.out.println("Клиент кому надо сделать запись найден");
             }
         }
         for (User user :
                 userRepository.findAll()) {
             if(user.getFullName().equals(staffFullName)){
                 staffForAppointment = (Staff)user;
-//                System.out.println("Работник найден");
             }
         }
 
-        String newAppointment = "New appointment";
-        Appointment appointment = new Appointment(newAppointment, staffForAppointment, dateOfAppointment, lookingUserToCreateAppointment);
-        lookingUserToCreateAppointment.getAppointments().add(appointment);
+        Appointment appointment = new Appointment(commandToStatus, staffForAppointment, dateOfAppointment, lookingUserToCreateAppointment);
+        lookingUserToCreateAppointment.addClientsAppointment(appointment);
 
         System.out.println("Appointment was created");
 
-        for (Appointment str : lookingUserToCreateAppointment.getAppointments()
+        for (Appointment str : lookingUserToCreateAppointment.getClientsAppointments()
                 ) {
             str.printInfo();
         }
+
 
         return 1;
     }

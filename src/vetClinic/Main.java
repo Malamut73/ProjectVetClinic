@@ -13,6 +13,7 @@ public class Main {
         // delete client Rodionov Ivan Vladimirovich
         // edit client Rodionov Ivan Vladimirovich to Korolev Ivan Vladimirovich
         // create appointment Rodionov Ivan Vladimirovich to Skitin Artem Mihailovich on 02.07.2022 22:00
+        // change status Rodionov Ivan Vladimirovich to in progress
 
 
 //        Authentication.authenticate();

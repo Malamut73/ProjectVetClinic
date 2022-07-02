@@ -12,13 +12,17 @@ import java.util.*;
 
 public class Appointment {
 
-    SimpleDateFormat dateCreationFormat = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat dateAndTimeAppointment = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+
+    private static final Map<String, String>  COMMAND_STATUS = Map.of(
+            "create appointment", "New appointment",
+            "in progress", "In progress"
+
+    );
 
     private final Date date;
     private final Staff staff;
-    // new appointment, in progress, canceled, waiting for payment, completed.
-    private final String status;
+    private String status;
     private final Date dateOfCreation;
     private final Client client;
 
@@ -26,7 +30,7 @@ public class Appointment {
     public Appointment(String appointmentType, Staff staff, String date, Client client){
         this.date = getDate(date);
         this.staff = staff;
-        this.status = appointmentType;
+        this.status = determinateStatus(appointmentType);
         this.dateOfCreation = new Date();
         this.client = client;
     }
@@ -41,6 +45,21 @@ public class Appointment {
         }
         return parsedDate;
     }
+    public void printInfo(){
+        System.out.println(status + " " + this.client.getFullName() + " appointment to " + this.staff.getFullName() + " " + dateAndTimeAppointment.format(date));
+    }
+    private String determinateStatus(String string){
+        if(string.contains("create appointment")){
+            return COMMAND_STATUS.get(string);
+        }else if(string.contains("in progress")){
+            return COMMAND_STATUS.get(string);
+        }
+        return null;
+    }
+
+    public void setStatus(String status) {
+        this.status = determinateStatus(status);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -54,9 +73,6 @@ public class Appointment {
         return Objects.hash(date);
     }
 
-    public void printInfo(){
-        System.out.println(status + " " + this.client.getFullName() + " appointment to " + this.staff.getFullName() + " " + dateAndTimeAppointment.format(date));
-//        System.out.printf("%s, %s to %s to %s on %s", status, this.client.getFullName(), this.staff.getFullName(), date);
-    }
+
 
 }

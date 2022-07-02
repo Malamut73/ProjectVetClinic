@@ -2,26 +2,30 @@ package users;
 
 import users.Appointment.Appointment;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Client extends User{
 
-    private final Set<Appointment> appointments = new HashSet<>();
+    private final ArrayDeque<Appointment> appointments = new ArrayDeque<>();
+//    private final Set<Appointment> appointments = new HashSet<>();
 
     public Client(String lastName, String firstName, String middleName) {
         super(lastName, firstName, middleName);
     }
 
-    public Set<Appointment> getAppointments(){
+    public ArrayDeque<Appointment> getClientsAppointments(){
         return appointments;
     }
-
-    public void printAppointments(){
+    public void printClientsAppointments(){
         for (Appointment appointment :
                 appointments) {
             appointment.printInfo();
         }
     }
-
+    public void addClientsAppointment(Appointment appointment){
+        appointments.add(appointment);
+    }
+    public Appointment getClientsAppointment(){
+        return appointments.getLast();
+    }
 }
