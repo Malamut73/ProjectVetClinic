@@ -2,6 +2,9 @@ package command.executer;
 
 import command.CommandType;
 import users.Staff;
+import users.User;
+
+import java.util.Optional;
 
 public class StaffCreator extends AbstractCommandExecutor{
 
@@ -22,7 +25,8 @@ public class StaffCreator extends AbstractCommandExecutor{
         var middleName = wordArray[4];
         var fullName = lastName + " " + firstName + " " + middleName;
 
-        if(findUser(fullName).isPresent()){
+        Optional<User> staffToCreate = findUser(fullName);
+        if(staffToCreate.isPresent()){
             System.out.println("Client already exists");
             return -1;
         }
@@ -31,7 +35,7 @@ public class StaffCreator extends AbstractCommandExecutor{
 
         System.out.println(findUser(fullName));
 
-        System.out.println("New client was created");
+        System.out.println("New staff was created");
 
         return 1;
     }

@@ -1,7 +1,7 @@
 package command;
 
 import command.executer.*;
-import command.CommandType;
+
 import java.util.Map;
 import java.util.Scanner;
 
@@ -14,7 +14,7 @@ public class CommandReader {
             CommandType.EDIT_FULL_NAME, new FullNameEditor(),
             CommandType.VIEW_CLIENTS, new ClientsView(),
             CommandType.VIEW_APPOINTMENTS, new AppointmentViewer(),
-            CommandType.DELETE_USER, new UserDeleter()
+            CommandType.DELETE_CLIENT, new ClientDeleter()
     );
 
     public static void startReading(){
@@ -50,6 +50,10 @@ public class CommandReader {
             return CommandType.VIEW_CLIENTS;
         }else if(commandString.contains("create staff")){
             return CommandType.CREATE_STAFF;
+        }else if(commandString.contains("delete client")) {
+            return CommandType.DELETE_CLIENT;
+        }else if(commandString.contains("edit client")){
+            return CommandType.EDIT_FULL_NAME;
         }
 
         return CommandType.UNDEFINED;

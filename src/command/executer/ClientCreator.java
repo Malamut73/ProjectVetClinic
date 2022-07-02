@@ -5,6 +5,7 @@ import repository.UserRepositoryImpl;
 import users.Client;
 import users.User;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class ClientCreator extends AbstractCommandExecutor{
@@ -26,7 +27,8 @@ public class ClientCreator extends AbstractCommandExecutor{
         var middleName = wordArray[4];
         var fullName = lastName + " " + firstName + " " + middleName;
 
-        if(findUser(fullName).isPresent()){
+        Optional<User> clientToCreate = findUser(fullName);
+        if(clientToCreate.isPresent()){
             System.out.println("Client already exists");
             return -1;
         }

@@ -10,4 +10,5 @@ public interface UserRepository {
     void remove(User user);
     Set<User> findAll();
 
+
 }

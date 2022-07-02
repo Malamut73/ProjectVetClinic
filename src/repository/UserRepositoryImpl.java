@@ -25,6 +25,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public void remove(User user) {
+        USERS.remove(user);
 
     }
 

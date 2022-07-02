@@ -3,7 +3,7 @@ package command;
 public enum CommandType {
     CREATE_CLIENT,
     CREATE_STAFF,
-    DELETE_USER,
+    DELETE_CLIENT,
     EDIT_FULL_NAME,
     VIEW_CLIENTS,
     CREATE_APPOINTMENT,
