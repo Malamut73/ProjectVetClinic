@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public abstract class User {
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateCreationFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         private static int nextId = 1;
         private final int userId;
@@ -55,7 +55,7 @@ public abstract class User {
 
         @Override
         public String toString() {
-                return userId + " " + fullName + " " + simpleDateFormat.format(dateOfRegistration);
+                return userId + " " + fullName + " " + dateCreationFormat.format(dateOfRegistration);
         }
         @Override
         public boolean equals(Object o) {

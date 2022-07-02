@@ -27,13 +27,11 @@ public class StaffCreator extends AbstractCommandExecutor{
 
         Optional<User> staffToCreate = findUser(fullName);
         if(staffToCreate.isPresent()){
-            System.out.println("Client already exists");
+            System.out.println("Staff already exists");
             return -1;
         }
         var newClient = new Staff(lastName, firstName, middleName);
         userRepository.save(newClient);
-
-        System.out.println(findUser(fullName));
 
         System.out.println("New staff was created");
 

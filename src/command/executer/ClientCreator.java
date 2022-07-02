@@ -35,8 +35,6 @@ public class ClientCreator extends AbstractCommandExecutor{
         var newClient = new Client(lastName, firstName, middleName);
         userRepository.save(newClient);
 
-        System.out.println(findUser(fullName));
-
         System.out.println("New client was created");
 
         return 1;

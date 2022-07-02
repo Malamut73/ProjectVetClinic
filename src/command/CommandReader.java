@@ -26,7 +26,6 @@ public class CommandReader {
         }
         scanner.close();
     }
-
     private static int readCommand(Scanner scanner){
         var commandString = scanner.nextLine();
         CommandType commandType = getCommandType(commandString);
@@ -42,7 +41,6 @@ public class CommandReader {
 
         return -1;
     }
-
     private static CommandType getCommandType(String commandString){
         if(commandString.contains("create client")){
             return CommandType.CREATE_CLIENT;
@@ -54,6 +52,8 @@ public class CommandReader {
             return CommandType.DELETE_CLIENT;
         }else if(commandString.contains("edit client")){
             return CommandType.EDIT_FULL_NAME;
+        }else if(commandString.contains("create appointment")){
+            return CommandType.CREATE_APPOINTMENT;
         }
 
         return CommandType.UNDEFINED;
