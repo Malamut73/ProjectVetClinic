@@ -2,10 +2,12 @@ package vetClinic;
 
 
 import command.CommandReader;
+import serialization.ObjectReader;
 
 public class Main {
 
     public static void main(String[] args) {
+        // command to test:
         // create client lekhmanov Nikolay Igorevich
         // create client Rodionov Ivan Vladimirovich
         // create staff Skitin Artem Mihailovich
@@ -18,13 +20,14 @@ public class Main {
         // change status 1 Rodionov Ivan Vladimirovich to in progress
         // change status 2 Rodionov Ivan Vladimirovich to canceled
         // change status 3 Rodionov Ivan Vladimirovich to waiting for payment
-        // change status 1 Rodionov Ivan Vladimirovich to completed
+        // change status 4 Rodionov Ivan Vladimirovich to completed
         // view appointments Rodionov Ivan Vladimirovich
 
         //exit
 
 
-//        Authentication.authenticate();
+        Authentication.authenticate();
+        ObjectReader.readUserRepository();
         CommandReader.startReading();
     }
 

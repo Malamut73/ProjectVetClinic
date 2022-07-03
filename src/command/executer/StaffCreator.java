@@ -23,6 +23,7 @@ public class StaffCreator extends AbstractCommandExecutor{
         var lastName = wordArray[2];
         var firstName = wordArray[3];
         var middleName = wordArray[4];
+
         var fullName = lastName + " " + firstName + " " + middleName;
 
         Optional<User> staffToCreate = findUser(fullName);

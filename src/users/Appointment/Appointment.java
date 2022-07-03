@@ -3,11 +3,12 @@ package users.Appointment;
 import users.Client;
 import users.Staff;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Appointment {
+public class Appointment implements Serializable {
 
     SimpleDateFormat dateAndTimeAppointment = new SimpleDateFormat("dd.MM.yyyy hh:mm");
 

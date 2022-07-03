@@ -2,9 +2,10 @@ package users;
 
 import users.Appointment.Appointment;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Client extends User{
+public class Client extends User implements Serializable {
 
     private final Set<Appointment> appointments = new HashSet<>();
 

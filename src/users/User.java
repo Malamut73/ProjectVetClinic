@@ -1,10 +1,11 @@
 package users;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public abstract class User {
+public abstract class User implements Serializable {
 
         SimpleDateFormat dateCreationFormat = new SimpleDateFormat("yyyy-MM-dd");
 

@@ -1,5 +1,9 @@
 package vetClinic;
 
+import repository.UserRepositoryImpl;
+import serialization.ObjectReader;
+import users.User;
+
 import java.util.Scanner;
 
 public class Authentication {
@@ -39,8 +43,10 @@ public class Authentication {
 
     private static boolean validate(String login, String password) {
 
+
         return login.equals(LOGIN) && password.equals(PASSWORD);
     }
+
 }
 
 

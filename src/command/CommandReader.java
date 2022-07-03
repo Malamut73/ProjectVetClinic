@@ -14,7 +14,8 @@ public class CommandReader {
             CommandType.EDIT_FULL_NAME, new FullNameEditor(),
             CommandType.VIEW_CLIENTS, new ClientsView(),
             CommandType.VIEW_APPOINTMENTS, new AppointmentViewer(),
-            CommandType.DELETE_CLIENT, new ClientDeleter()
+            CommandType.DELETE_CLIENT, new ClientDeleter(),
+            CommandType.EXIT, new Exister()
     );
 
     public static void startReading(){
@@ -33,12 +34,12 @@ public class CommandReader {
         if(COMMAND_EXECUTOR_MAP.containsKey(commandType)){
             var commandExecutor = COMMAND_EXECUTOR_MAP.get(commandType);
             return commandExecutor.execute(commandString);
-        }else if(commandType == CommandType.EXIT){
-            return 0;
         }else{
             System.out.println("Incorrect command");
         }
-
+// else if(commandType == CommandType.EXIT){
+//            return 0;
+//        }
         return -1;
     }
     private static CommandType getCommandType(String commandString){
