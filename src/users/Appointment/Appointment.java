@@ -1,11 +1,8 @@
 package users.Appointment;
 
-import command.CommandType;
-import command.executer.*;
 import users.Client;
 import users.Staff;
 
-import javax.xml.crypto.Data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,12 +11,8 @@ public class Appointment {
 
     SimpleDateFormat dateAndTimeAppointment = new SimpleDateFormat("dd.MM.yyyy hh:mm");
 
-    private static final Map<String, String>  COMMAND_STATUS = Map.of(
-            "create appointment", "New appointment",
-            "in progress", "In progress"
-
-    );
-
+    private static int countNumber = 1;
+    private final int number;
     private final Date date;
     private final Staff staff;
     private String status;
@@ -30,9 +23,11 @@ public class Appointment {
     public Appointment(String appointmentType, Staff staff, String date, Client client){
         this.date = getDate(date);
         this.staff = staff;
-        this.status = determinateStatus(appointmentType);
+        this.status = appointmentType;
         this.dateOfCreation = new Date();
         this.client = client;
+        this.number = countNumber;
+        countNumber++;
     }
 
     private Date getDate(String date){
@@ -46,32 +41,32 @@ public class Appointment {
         return parsedDate;
     }
     public void printInfo(){
-        System.out.println(status + " " + this.client.getFullName() + " appointment to " + this.staff.getFullName() + " " + dateAndTimeAppointment.format(date));
-    }
-    private String determinateStatus(String string){
-        if(string.contains("create appointment")){
-            return COMMAND_STATUS.get(string);
-        }else if(string.contains("in progress")){
-            return COMMAND_STATUS.get(string);
-        }
-        return null;
+        System.out.println("Appointment №: " + number + " " + status + " " + this.client.getFullName() + " appointment to " + this.staff.getFullName() + " " + dateAndTimeAppointment.format(date));
     }
 
-    public void setStatus(String status) {
-        this.status = determinateStatus(status);
+
+    public int getNumber(){
+        return this.number;
     }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Appointment that = (Appointment) o;
-        return Objects.equals(date, that.date);
+        return number == that.number;
     }
     @Override
     public int hashCode() {
-        return Objects.hash(date);
+        return Objects.hash(number);
     }
+
+
+
 
 
 

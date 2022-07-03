@@ -12,8 +12,16 @@ public class Main {
         // view clients
         // delete client Rodionov Ivan Vladimirovich
         // edit client Rodionov Ivan Vladimirovich to Korolev Ivan Vladimirovich
-        // create appointment Rodionov Ivan Vladimirovich to Skitin Artem Mihailovich on 02.07.2022 22:00
-        // change status Rodionov Ivan Vladimirovich to in progress
+        // edit client Korolev Ivan Vladimirovich to Rodionov Vladimirovich
+
+        // create appointment Rodionov Ivan Vladimirovich to Skitin Artem Mihailovich on 03.07.2022 22:00
+        // change status 1 Rodionov Ivan Vladimirovich to in progress
+        // change status 2 Rodionov Ivan Vladimirovich to canceled
+        // change status 3 Rodionov Ivan Vladimirovich to waiting for payment
+        // change status 1 Rodionov Ivan Vladimirovich to completed
+        // view appointments Rodionov Ivan Vladimirovich
+
+        //exit
 
 
 //        Authentication.authenticate();

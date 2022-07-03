@@ -19,8 +19,6 @@ public class AppointmentCreator extends AbstractCommandExecutor{
         return CommandType.CREATE_APPOINTMENT;
     }
 
-
-
     private int createAppointment(String command){
         Staff staffForAppointment = null;
         Client lookingUserToCreateAppointment = null;
@@ -37,7 +35,7 @@ public class AppointmentCreator extends AbstractCommandExecutor{
         var staffFullName = staffLastName + " " + staffFirstName + " " + staffMiddleName;
         var fullName = lastName + " " + firstName + " " + middleName;
         String dateOfAppointment = wordArray[10] + " " + wordArray[11];
-        String commandToStatus = wordArray[0] + " " + wordArray[1];
+        String commandToStatus = "new appointment";
 
         Optional<User> clientCheck = findUser(fullName);
         if(!(clientCheck.isPresent())){
@@ -67,12 +65,6 @@ public class AppointmentCreator extends AbstractCommandExecutor{
         lookingUserToCreateAppointment.addClientsAppointment(appointment);
 
         System.out.println("Appointment was created");
-
-        for (Appointment str : lookingUserToCreateAppointment.getClientsAppointments()
-                ) {
-            str.printInfo();
-        }
-
 
         return 1;
     }

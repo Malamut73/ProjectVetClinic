@@ -23,13 +23,12 @@ public abstract class User {
                 this.firstName = firstName;
                 this.lastName = lastName;
                 this.middleName = middleName;
-                this.fullName = getFullName();
                 this.dateOfRegistration = new Date();
+                this.fullName = lastName + " " + firstName + " " + middleName;
         }
 
-
         public String getFullName(){
-                return fullName = lastName + " " + firstName + " " + middleName;
+                return fullName;
         }
         public String getFirstName() {
                 return firstName;
@@ -50,6 +49,11 @@ public abstract class User {
                 this.middleName = middleName;
         }
         public void setFullName(String fullName) {
+                StringBuilder stringBuilder = new StringBuilder();
+                String[] FIO = fullName.split(" ");
+                this.setLastName(FIO[0]);
+                this.setFirstName(FIO[1]);
+                this.setMiddleName(FIO[2]);
                 this.fullName = fullName;
         }
 

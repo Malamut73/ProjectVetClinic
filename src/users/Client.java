@@ -6,26 +6,44 @@ import java.util.*;
 
 public class Client extends User{
 
-    private final ArrayDeque<Appointment> appointments = new ArrayDeque<>();
-//    private final Set<Appointment> appointments = new HashSet<>();
+    private final Set<Appointment> appointments = new HashSet<>();
 
     public Client(String lastName, String firstName, String middleName) {
         super(lastName, firstName, middleName);
     }
 
-    public ArrayDeque<Appointment> getClientsAppointments(){
+    public Set<Appointment> getClientsAppointments(){
         return appointments;
-    }
-    public void printClientsAppointments(){
-        for (Appointment appointment :
-                appointments) {
-            appointment.printInfo();
-        }
     }
     public void addClientsAppointment(Appointment appointment){
         appointments.add(appointment);
     }
-    public Appointment getClientsAppointment(){
-        return appointments.getLast();
+    public Appointment getClientsAppointment(int number){
+
+        Appointment searchingAppointment = null;
+
+        Optional<Appointment> appointmentCheck = findAppointment(number);
+        if(!(appointmentCheck.isPresent())){
+            System.out.println("Appointment not found");
+        }
+
+        for (Appointment appointment : getClientsAppointments()){
+            if(appointment.getNumber() == number){
+                searchingAppointment = appointment;
+            }
+        }
+        return searchingAppointment;
     }
+
+    private Optional<Appointment> findAppointment(int number){
+        for (Appointment appointment :
+                getClientsAppointments()) {
+            if(appointment.getNumber() == number){
+                return Optional.of(appointment);
+
+            }
+        }
+        return Optional.empty();
+    }
+
 }

@@ -1,18 +1,17 @@
 package command.executer;
 
 import command.CommandType;
-import users.Appointment.Appointment;
 import users.Client;
 import users.User;
 
 import java.util.Optional;
 
 public class AppointmentEditor extends AbstractCommandExecutor{
+
     @Override
     public int execute(String command) {
         return editAppointment(command);
     }
-
     @Override
     public CommandType getCommandType() {
         return CommandType.CREATE_APPOINTMENT;
@@ -20,22 +19,18 @@ public class AppointmentEditor extends AbstractCommandExecutor{
 
     private int editAppointment(String command){
         Client client = null;
-        // change status Rodionov Ivan Vladimirovich to in progress
 
         var wordArray = command.split(" ");
-        var lastName = wordArray[2];
-        var firstName = wordArray[3];
-        var middleName = wordArray[4];
+        var lastName = wordArray[3];
+        var firstName = wordArray[4];
+        var middleName = wordArray[5];
         var fullName = lastName + " " + firstName + " " + middleName;
+        int number = Integer.parseInt(wordArray[2]);
 
         StringBuilder nameOfStatus = new StringBuilder();
-        for (int i = 6; i < wordArray.length; i++) {
+        for (int i = 7; i < wordArray.length; i++) {
             nameOfStatus.append(wordArray[i] + " ");
         }
-
-        
-//        String commandToStatus = wordArray[6] + " " + wordArray[7];
-
 
         Optional<User> clientCheck = findUser(fullName);
         if(!(clientCheck.isPresent())){
@@ -50,9 +45,8 @@ public class AppointmentEditor extends AbstractCommandExecutor{
             }
         }
 
-        client.getClientsAppointment().setStatus(nameOfStatus.toString().trim());
+        client.getClientsAppointment(number).setStatus(nameOfStatus.toString().trim());
         System.out.println("Appointment was change");
-        client.printClientsAppointments();
 
 
         return 1;

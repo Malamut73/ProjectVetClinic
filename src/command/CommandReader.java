@@ -56,6 +56,10 @@ public class CommandReader {
             return CommandType.CREATE_APPOINTMENT;
         }else if(commandString.contains("change status")){
             return CommandType.EDIT_APPOINTMENT;
+        }else if(commandString.contains("view appointments")){
+            return CommandType.VIEW_APPOINTMENTS;
+        }else if(commandString.contains("exit")){
+            return CommandType.EXIT;
         }
 
         return CommandType.UNDEFINED;

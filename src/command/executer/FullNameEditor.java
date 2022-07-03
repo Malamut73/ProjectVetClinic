@@ -35,7 +35,7 @@ public class FullNameEditor extends AbstractCommandExecutor{
             return -1;
         }
 
-        User lookingUserToEdit = new Client(lastName, firstName, middleName);
+        Client lookingUserToEdit = new Client(lastName, firstName, middleName);
         for (User user :
                 userRepository.findAll()) {
             if (user.equals(lookingUserToEdit)) {
