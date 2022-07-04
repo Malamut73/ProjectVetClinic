@@ -61,7 +61,7 @@ public class Main {
          */
 
 
-//        Authentication.authenticate();
+        Authentication.authenticate();
         ObjectReader.readUserRepository();   // загрузка данный из файла в UserRepository
         CommandReader.startReading();
     }
