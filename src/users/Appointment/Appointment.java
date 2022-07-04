@@ -12,7 +12,6 @@ public class Appointment implements Serializable {
 
     SimpleDateFormat dateAndTimeAppointment = new SimpleDateFormat("dd.MM.yyyy hh:mm");
 
-    private static int countNumber = 1;
     private final int number;
     private final Date date;
     private final Staff staff;
@@ -27,8 +26,9 @@ public class Appointment implements Serializable {
         this.status = appointmentType;
         this.dateOfCreation = new Date();
         this.client = client;
-        this.number = countNumber;
-        countNumber++;
+
+        this.number = Client.getAppointmentCountNumber();
+        Client.setAppointmentCountNumber(this.number + 1);
     }
 
     private Date getDate(String date){

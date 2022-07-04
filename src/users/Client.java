@@ -9,6 +9,7 @@ public class Client extends User implements Serializable {
 
     private final Set<Appointment> appointments = new HashSet<>();
 
+
     public Client(String lastName, String firstName, String middleName) {
         super(lastName, firstName, middleName);
     }
@@ -35,6 +36,8 @@ public class Client extends User implements Serializable {
         }
         return searchingAppointment;
     }
+
+
 
     private Optional<Appointment> findAppointment(int number){
         for (Appointment appointment :

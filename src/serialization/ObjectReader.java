@@ -1,6 +1,8 @@
 package serialization;
 
 import repository.UserRepositoryImpl;
+import users.Appointment.Appointment;
+import users.Client;
 import users.User;
 
 import java.io.FileInputStream;
@@ -17,6 +19,7 @@ public class ObjectReader extends Serialization {
         FileInputStream fileInputStream = null;
         ObjectInputStream objectInputStream = null;
         int newNextInt = 1;
+        int newAppCountNumber = 1;
 
         try {
             fileInputStream = new FileInputStream(fileName);
@@ -25,8 +28,18 @@ public class ObjectReader extends Serialization {
             for (User user :
                     users) {
                 userRepository.save(user);
+                if(user instanceof Client){
+                    for (Appointment appointment :
+                            ((Client) user).getClientsAppointments()) {
+
+                        newAppCountNumber++;
+                    }
+
+                }
+
                 ++newNextInt;
             }
+            User.setAppointmentCountNumber(newAppCountNumber);
             User.setNextId(newNextInt);
 
         } catch (IOException | ClassNotFoundException e) {
