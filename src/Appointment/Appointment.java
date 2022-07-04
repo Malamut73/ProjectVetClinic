@@ -1,4 +1,4 @@
-package users.Appointment;
+package Appointment;
 
 import users.Client;
 import users.Staff;

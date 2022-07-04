@@ -1,6 +1,11 @@
 package command;
 
 import command.executer.*;
+import command.executer.commands.*;
+import command.executer.commands.appointmnentCommands.AppointmentCreator;
+import command.executer.commands.appointmnentCommands.AppointmentEditor;
+import command.executer.commands.appointmnentCommands.AppointmentViewer;
+import command.executer.commands.userCommands.*;
 
 import java.util.Map;
 import java.util.Scanner;

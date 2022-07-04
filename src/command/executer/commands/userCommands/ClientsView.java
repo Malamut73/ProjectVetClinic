@@ -1,10 +1,11 @@
-package command.executer;
+package command.executer.commands.userCommands;
 
 import command.CommandType;
+import command.executer.AbstractCommandExecutor;
 import users.Client;
 import users.User;
 
-public class ClientsView extends AbstractCommandExecutor{
+public class ClientsView extends AbstractCommandExecutor {
 
     @Override
     public int execute(String command) {

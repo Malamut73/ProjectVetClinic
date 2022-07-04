@@ -1,11 +1,12 @@
-package command.executer;
+package command.executer.commands.userCommands;
 
 import command.CommandType;
+import command.executer.AbstractCommandExecutor;
 import users.User;
 
 import java.util.Optional;
 
-public class ClientDeleter extends AbstractCommandExecutor{
+public class ClientDeleter extends AbstractCommandExecutor {
 
     @Override
     public int execute(String command) {
