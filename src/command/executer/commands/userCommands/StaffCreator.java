@@ -1,12 +1,13 @@
-package command.executer;
+package command.executer.commands.userCommands;
 
 import command.CommandType;
+import command.executer.AbstractCommandExecutor;
 import users.Staff;
 import users.User;
 
 import java.util.Optional;
 
-public class StaffCreator extends AbstractCommandExecutor{
+public class StaffCreator extends AbstractCommandExecutor {
 
     @Override
     public int execute(String command) {

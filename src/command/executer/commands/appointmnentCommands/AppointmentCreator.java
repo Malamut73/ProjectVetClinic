@@ -1,14 +1,15 @@
-package command.executer;
+package command.executer.commands.appointmnentCommands;
 
 import command.CommandType;
-import users.Appointment.Appointment;
+import command.executer.AbstractCommandExecutor;
+import Appointment.Appointment;
 import users.Client;
 import users.Staff;
 import users.User;
 
 import java.util.Optional;
 
-public class AppointmentCreator extends AbstractCommandExecutor{
+public class AppointmentCreator extends AbstractCommandExecutor {
 
     @Override
     public int execute(String command) {

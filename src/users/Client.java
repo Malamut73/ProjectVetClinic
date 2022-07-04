@@ -1,9 +1,6 @@
 package users;
 
-import users.Appointment.Appointment;
-
 import java.io.Serializable;
-import java.util.*;
 
 public class Client extends AbstractClient implements Serializable {
 

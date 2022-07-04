@@ -1,13 +1,14 @@
-package command.executer;
+package command.executer.commands.appointmnentCommands;
 
 import command.CommandType;
-import users.Appointment.Appointment;
+import command.executer.AbstractCommandExecutor;
+import Appointment.Appointment;
 import users.Client;
 import users.User;
 
 import java.util.Optional;
 
-public class AppointmentViewer extends AbstractCommandExecutor{
+public class AppointmentViewer extends AbstractCommandExecutor {
 
     Client lookingUserToCreateAppointment = null;
 

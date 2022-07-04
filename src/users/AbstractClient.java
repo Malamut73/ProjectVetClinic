@@ -1,6 +1,6 @@
 package users;
 
-import users.Appointment.Appointment;
+import Appointment.Appointment;
 
 import java.io.Serializable;
 import java.util.HashSet;

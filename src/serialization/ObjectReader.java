@@ -2,7 +2,7 @@ package serialization;
 
 import repository.UserRepositoryImpl;
 import users.AbstractClient;
-import users.Appointment.Appointment;
+import Appointment.Appointment;
 import users.Client;
 import users.User;
 
