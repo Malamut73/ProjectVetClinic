@@ -16,17 +16,18 @@ public class ObjectReader extends Serialization {
         UserRepositoryImpl userRepository = UserRepositoryImpl.getSingleton();
         FileInputStream fileInputStream = null;
         ObjectInputStream objectInputStream = null;
-
+        int newNextInt = 1;
 
         try {
             fileInputStream = new FileInputStream(fileName);
             objectInputStream = new ObjectInputStream(fileInputStream);
-
             HashSet<User> users = (HashSet<User>) objectInputStream.readObject();
             for (User user :
                     users) {
                 userRepository.save(user);
+                ++newNextInt;
             }
+            User.setNextId(newNextInt);
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

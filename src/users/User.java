@@ -20,7 +20,7 @@ public abstract class User implements Serializable {
 
         public User(String lastName, String firstName, String middleName) {
                 this.userId = nextId;
-                nextId++;
+                ++nextId;
                 this.firstName = firstName;
                 this.lastName = lastName;
                 this.middleName = middleName;
@@ -56,6 +56,9 @@ public abstract class User implements Serializable {
                 this.setFirstName(FIO[1]);
                 this.setMiddleName(FIO[2]);
                 this.fullName = fullName;
+        }
+        public static void setNextId(int nextId) {
+                User.nextId = nextId;
         }
 
         @Override
