@@ -33,7 +33,7 @@ public class Main {
         edit client ... to ...
         редактирует данные клиента. Нужно ввести ФИО клиента которого нужно отредактировать и новые ФИО, примеры:
         edit client Rodionov Ivan Vladimirovich to Korolev Ivan Vladimirovich
-        edit client Korolev Ivan Vladimirovich to Rodionov Vladimirovich
+        edit client Korolev Ivan Vladimirovich to Rodionov Ivan Vladimirovich
 
         create appointment ... to ... on ...
         Создает встречу клиента к врачу, необходимо ввести ФИО клиента и ФИО врача к которому нужно записаться,
@@ -61,7 +61,7 @@ public class Main {
          */
 
 
-        Authentication.authenticate();
+//        Authentication.authenticate();
         ObjectReader.readUserRepository();   // загрузка данный из файла в UserRepository
         CommandReader.startReading();
     }

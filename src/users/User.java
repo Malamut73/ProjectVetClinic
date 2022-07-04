@@ -9,7 +9,7 @@ public abstract class User implements Serializable {
 
         SimpleDateFormat dateCreationFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        private static int appointmentCountNumber = 1;
+
         private static int nextId = 1;
         private final int userId;
         private String firstName;
@@ -61,12 +61,7 @@ public abstract class User implements Serializable {
         public static void setNextId(int nextId) {
                 User.nextId = nextId;
         }
-        public static int getAppointmentCountNumber() {
-                return appointmentCountNumber;
-        }
-        public static void setAppointmentCountNumber(int appointmentCountNumber) {
-                User.appointmentCountNumber = appointmentCountNumber;
-        }
+
 
         @Override
         public String toString() {

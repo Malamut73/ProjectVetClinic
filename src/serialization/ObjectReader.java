@@ -1,6 +1,7 @@
 package serialization;
 
 import repository.UserRepositoryImpl;
+import users.AbstractClient;
 import users.Appointment.Appointment;
 import users.Client;
 import users.User;
@@ -18,7 +19,7 @@ public class ObjectReader extends Serialization {
         UserRepositoryImpl userRepository = UserRepositoryImpl.getSingleton();
         FileInputStream fileInputStream = null;
         ObjectInputStream objectInputStream = null;
-        int newNextInt = 1;
+        int newUserNextInt = 1;
         int newAppCountNumber = 1;
 
         try {
@@ -37,10 +38,10 @@ public class ObjectReader extends Serialization {
 
                 }
 
-                ++newNextInt;
+                newUserNextInt++;
             }
-            User.setAppointmentCountNumber(newAppCountNumber);
-            User.setNextId(newNextInt);
+            AbstractClient.setAppointmentCountNumber(newAppCountNumber);
+            AbstractClient.setNextId(newUserNextInt);
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
