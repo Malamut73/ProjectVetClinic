@@ -17,6 +17,8 @@ public class ClientsView extends AbstractCommandExecutor {
     }
 
     private int viewClients(String command){
+
+
         for (User user :
                 userRepository.findAll()) {
             if(user instanceof Client){

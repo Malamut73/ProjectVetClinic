@@ -21,8 +21,6 @@ public class AppointmentCreator extends AbstractCommandExecutor {
     }
 
     private int createAppointment(String command){
-        Staff staffForAppointment = null;
-        Client lookingUserToCreateAppointment = null;
 
         var wordArray = command.split(" ");
         var lastName = wordArray[2];
@@ -39,28 +37,31 @@ public class AppointmentCreator extends AbstractCommandExecutor {
         String commandToStatus = "new appointment";
 
         Optional<User> clientCheck = findUser(fullName);
-        if(!(clientCheck.isPresent())){
+        if(clientCheck.isEmpty()){
             System.out.println("Client not found");
             return -1;
         }
+        Client lookingUserToCreateAppointment = (Client)clientCheck.get();
+
         Optional<User> staffCheck = findUser(staffFullName);
-        if(!(staffCheck.isPresent())){
+        if(staffCheck.isEmpty()){
             System.out.println("Staff not found");
             return -1;
         }
+        Staff staffForAppointment = (Staff)staffCheck.get();
 
-        for (User user :
-                userRepository.findAll()) {
-            if (user.getFullName().equals(fullName)) {
-                lookingUserToCreateAppointment = (Client)user;
-            }
-        }
-        for (User user :
-                userRepository.findAll()) {
-            if(user.getFullName().equals(staffFullName)){
-                staffForAppointment = (Staff)user;
-            }
-        }
+//        for (User user :
+//                userRepository.findAll()) {
+//            if (user.getFullName().equals(fullName)) {
+//                lookingUserToCreateAppointment = (Client)user;
+//            }
+//        }
+//        for (User user :
+//                userRepository.findAll()) {
+//            if(user.getFullName().equals(staffFullName)){
+//                staffForAppointment
+//            }
+//        }
 
         Appointment appointment = new Appointment(commandToStatus, staffForAppointment, dateOfAppointment, lookingUserToCreateAppointment);
         lookingUserToCreateAppointment.addClientsAppointment(appointment);

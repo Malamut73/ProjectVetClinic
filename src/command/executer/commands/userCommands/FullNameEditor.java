@@ -37,13 +37,17 @@ public class FullNameEditor extends AbstractCommandExecutor {
         }
 
         Client lookingUserToEdit = new Client(lastName, firstName, middleName);
-        for (User user :
-                userRepository.findAll()) {
-            if (user.equals(lookingUserToEdit)) {
-                user.setFullName(newFullName);
-                System.out.println("Client was edited");
-            }
+        if(clientToEdit.get().equals(lookingUserToEdit)){
+            clientToEdit.get().setFullName(newFullName);
+            System.out.println("Client was edited");
         }
+//        for (User user :
+//                userRepository.findAll()) {
+//            if (user.equals(lookingUserToEdit)) {
+//                user.setFullName(newFullName);
+//
+//            }
+//        }
         return 1;
 
     }
