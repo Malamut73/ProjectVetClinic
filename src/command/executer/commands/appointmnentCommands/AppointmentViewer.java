@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public class AppointmentViewer extends AbstractCommandExecutor {
 
-    Client lookingUserToCreateAppointment = null;
-
     @Override
     public int execute(String command) {
         return viewAppointments(command);
@@ -34,13 +32,13 @@ public class AppointmentViewer extends AbstractCommandExecutor {
             System.out.println("Client not found");
             return -1;
         }
-
-        for (User user :
-                userRepository.findAll()) {
-            if (user.getFullName().equals(fullName)) {
-                lookingUserToCreateAppointment = (Client)user;
-            }
-        }
+        Client lookingUserToCreateAppointment = (Client) clientCheck.get();
+//        for (User user :
+//                userRepository.findAll()) {
+//            if (user.getFullName().equals(fullName)) {
+//                lookingUserToCreateAppointment = (Client)user;
+//            }
+//        }
 
         for (Appointment str : lookingUserToCreateAppointment.getClientsAppointments()
         ) {

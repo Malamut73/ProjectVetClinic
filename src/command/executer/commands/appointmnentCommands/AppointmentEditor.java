@@ -19,7 +19,6 @@ public class AppointmentEditor extends AbstractCommandExecutor {
     }
 
     private int editAppointment(String command){
-        Client client = null;
 
         var wordArray = command.split(" ");
         var lastName = wordArray[3];
@@ -38,13 +37,13 @@ public class AppointmentEditor extends AbstractCommandExecutor {
             System.out.println("Client not found");
             return -1;
         }
-
-        for (User user :
-                userRepository.findAll()) {
-            if (user.getFullName().equals(fullName)) {
-                client = (Client)user;
-            }
-        }
+        Client client = (Client) clientCheck.get();
+//        for (User user :
+//                userRepository.findAll()) {
+//            if (user.getFullName().equals(fullName)) {
+//                client = (Client)user;
+//            }
+//        }
 
         client.getClientsAppointment(number).setStatus(nameOfStatus.toString().trim());
         System.out.println("Appointment was change");
