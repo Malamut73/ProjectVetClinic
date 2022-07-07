@@ -34,7 +34,7 @@ public class StaffCreator extends AbstractCommandExecutor {
             System.out.println("Staff already exists");
             return -1;
         }
-        var newClient = new Staff(lastName, firstName, middleName, login, password);
+        Staff newClient = new Staff(lastName, firstName, middleName, login, password);
         userRepository.save(newClient);
 
         System.out.println("New staff was created");
