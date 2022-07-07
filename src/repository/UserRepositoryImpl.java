@@ -1,5 +1,6 @@
 package repository;
 
+import users.Staff;
 import users.User;
 
 import java.io.Serializable;
@@ -9,6 +10,10 @@ import java.util.Set;
 public class UserRepositoryImpl implements UserRepository, Serializable {
 
     private final static Set<User> USERS = new HashSet<>();
+    static{
+        Staff staff = new Staff("admin", "admin","admin", "admin", "admin");
+        USERS.add(staff);
+    }
 
     private final static UserRepositoryImpl SINGLETON = new UserRepositoryImpl();
 
