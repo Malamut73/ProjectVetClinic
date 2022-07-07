@@ -24,6 +24,8 @@ public class StaffCreator extends AbstractCommandExecutor {
         var lastName = wordArray[2];
         var firstName = wordArray[3];
         var middleName = wordArray[4];
+        var login = wordArray[5];
+        var password = wordArray[6];
 
         var fullName = lastName + " " + firstName + " " + middleName;
 
@@ -32,7 +34,7 @@ public class StaffCreator extends AbstractCommandExecutor {
             System.out.println("Staff already exists");
             return -1;
         }
-        var newClient = new Staff(lastName, firstName, middleName);
+        var newClient = new Staff(lastName, firstName, middleName, login, password);
         userRepository.save(newClient);
 
         System.out.println("New staff was created");

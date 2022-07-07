@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class AbstractClient extends User implements Serializable {
+public abstract class AbstractClient extends User implements Serializable {
 
     private final Set<Appointment> appointments = new HashSet<>();
     private static int appointmentCountNumber = 1;
@@ -44,7 +44,6 @@ public class AbstractClient extends User implements Serializable {
     public static void setAppointmentCountNumber(int appointmentCountNumber) {
         AbstractClient.appointmentCountNumber = appointmentCountNumber;
     }
-
 
 
     private Optional<Appointment> findAppointment(int number){
