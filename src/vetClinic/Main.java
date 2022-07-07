@@ -21,8 +21,9 @@ public class Main {
         create client Rodionov Ivan Vladimirovich
 
         create staff ...
-        создает сотрудника с уникальным id и датой создания, необходимо ввести ФИО, примеры:
-        create staff Skitin Artem Mihailovich
+        создает сотрудника с уникальным id и датой создания, необходимо ввести ФИО логин
+        и пароль для авторизации, примеры:
+        create staff Skitin Artem Mihailovich admin admin
 
         view clients - оттображает список клиентов
 
@@ -61,8 +62,9 @@ public class Main {
          */
 
 
-//        Authentication.authenticate();
+
         ObjectReader.readUserRepository();   // загрузка данный из файла в UserRepository
+        Authentication.authenticate();
         CommandReader.startReading();
     }
 

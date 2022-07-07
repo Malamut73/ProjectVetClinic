@@ -6,7 +6,6 @@ import repository.UserRepository;
 import repository.UserRepositoryImpl;
 import users.User;
 
-import java.io.IOException;
 import java.util.Optional;
 
 
@@ -27,8 +26,4 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
         }
         return Optional.empty();
     }
-
-
-
-
 }

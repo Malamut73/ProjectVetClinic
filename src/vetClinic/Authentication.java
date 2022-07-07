@@ -1,15 +1,13 @@
 package vetClinic;
 
 import repository.UserRepositoryImpl;
-import serialization.ObjectReader;
+import users.Staff;
 import users.User;
 
 import java.util.Scanner;
 
 public class Authentication {
 
-    private static final String LOGIN = "admin";
-    private static final String PASSWORD = "admin";
 
     public static void authenticate() {
 
@@ -43,8 +41,15 @@ public class Authentication {
 
     private static boolean validate(String login, String password) {
 
+        for (User user : UserRepositoryImpl.getSingleton().findAll()) {
+            if(user instanceof Staff){
+                if(((Staff)user).getLogin().equals(login)){
+                    return ((Staff)user).getPassword().equals(password);
+                }
+            }
 
-        return login.equals(LOGIN) && password.equals(PASSWORD);
+        }
+        return false;
     }
 
 }
