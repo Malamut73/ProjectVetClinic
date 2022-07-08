@@ -5,7 +5,7 @@ import command.executer.AbstractCommandExecutor;
 import users.Client;
 import users.User;
 
-public class ClientsView extends AbstractCommandExecutor {
+public class ClientsViewer extends AbstractCommandExecutor {
 
     @Override
     public int execute(String command) {
@@ -17,13 +17,17 @@ public class ClientsView extends AbstractCommandExecutor {
     }
 
     private int viewClients(String command){
-
+    int countClients = 0;
 
         for (User user :
                 userRepository.findAll()) {
             if(user instanceof Client){
                 System.out.println(user);
+                countClients++;
             }
+        }
+        if(countClients == 0){
+            System.out.println("Any clients was found.");
         }
         return 1;
     }

@@ -17,31 +17,33 @@ public class ObjectReader extends Serialization {
 
     public static void readUserRepository(){
         UserRepositoryImpl userRepository = UserRepositoryImpl.getSingleton();
-        FileInputStream fileInputStream = null;
-        ObjectInputStream objectInputStream = null;
-        int newUserNextInt = 1;
+        int newUserNextInt = 2;
         int newAppCountNumber = 1;
 
-        try {
-            fileInputStream = new FileInputStream(fileName);
-            objectInputStream = new ObjectInputStream(fileInputStream);
-            HashSet<User> users = (HashSet<User>) objectInputStream.readObject();
-            for (User user :
-                    users) {
-                userRepository.save(user);
-                if(user instanceof Client){
-                    for (Appointment appointment :
-                            ((Client) user).getClientsAppointments()) {
 
-                        newAppCountNumber++;
+        try (FileInputStream fileInputStream = new FileInputStream(fileName)) {
+
+            if(fileInputStream.available() > 0) {
+                try (ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+                    HashSet<User> users = (HashSet<User>) objectInputStream.readObject();
+                    for (User user :
+                            users) {
+                        userRepository.save(user);
+                        if (user instanceof Client) {
+                            for (Appointment appointment :
+                                    ((Client) user).getClientsAppointments()) {
+
+                                newAppCountNumber++;
+                            }
+
+                        }
+
+                        newUserNextInt++;
                     }
-
                 }
-
-                newUserNextInt++;
             }
             AbstractClient.setAppointmentCountNumber(newAppCountNumber);
-            AbstractClient.setNextId(newUserNextInt);
+            User.setNextId(newUserNextInt);
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

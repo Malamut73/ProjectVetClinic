@@ -17,7 +17,7 @@ public class CommandReader {
             CommandType.CREATE_APPOINTMENT, new AppointmentCreator(),
             CommandType.EDIT_APPOINTMENT, new AppointmentEditor(),
             CommandType.EDIT_FULL_NAME, new FullNameEditor(),
-            CommandType.VIEW_CLIENTS, new ClientsView(),
+            CommandType.VIEW_CLIENTS, new ClientsViewer(),
             CommandType.VIEW_APPOINTMENTS, new AppointmentViewer(),
             CommandType.DELETE_CLIENT, new ClientDeleter(),
             CommandType.EXIT, new Exister()
