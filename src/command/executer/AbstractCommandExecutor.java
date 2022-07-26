@@ -1,29 +1,19 @@
 package command.executer;
 
-
-
-import repository.UserRepository;
-import repository.UserRepositoryImpl;
-import users.User;
-
-import java.util.Optional;
-
+import repository.AppointmentRepository;
+import repository.ClientRepository;
+import repository.StaffRepository;
+import repository.impl.AppointmentRepositoryImpl;
+import repository.impl.ClientRepositoryImpl;
+import repository.impl.StaffRepositoryImpl;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
 
-    protected final UserRepository userRepository = UserRepositoryImpl.getSingleton();
+
+    protected final ClientRepository clientRepository = ClientRepositoryImpl.GET_CLIENT_REPOSITORY_SQL();
+    protected final StaffRepository staffRepository = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL();
+    protected final AppointmentRepository appointmentRepository = AppointmentRepositoryImpl.GET_APPOINTMENT_REPOSITORY_SQL();
 
     protected AbstractCommandExecutor(){
     }
-
-    protected Optional<User> findUser(String fullName){
-        for (User user :
-                userRepository.findAll()) {
-            if(user.getFullName().equals(fullName)){
-                return Optional.of(user);
-
-            }
-        }
-        return Optional.empty();
     }
-}

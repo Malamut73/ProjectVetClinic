@@ -2,7 +2,7 @@ package vetClinic;
 
 
 import command.CommandReader;
-import serialization.ObjectReader;
+
 
 public class Main {
 
@@ -27,6 +27,11 @@ public class Main {
 
         view clients - оттображает список клиентов
 
+        view staff - оттображает список пероснала
+
+        view appointments - отображает все встречи
+
+
         delete client ...
         Удаляет клиента по ФИО
         delete client Rodionov Ivan Vladimirovich
@@ -42,18 +47,18 @@ public class Main {
         у вновь созданной встречи будет статус новая встреча, примеры:
         create appointment Rodionov Ivan Vladimirovich to Skitin Artem Mihailovich on 03.07.2022 22:00
 
-        change status ... ... to ...
-        меняем статус у встречи, поиск встречи осуществляется по номеру, его можно получить с помощью
-        команды view appointment, так же необходимо ввести ФИО клиенты и статус на который хотим поменять
-        (in progress, canceled, waiting for payment, completed), примеры:
-        change status 1 Rodionov Ivan Vladimirovich to in progress
-        change status 2 Rodionov Ivan Vladimirovich to canceled
-        change status 3 Rodionov Ivan Vladimirovich to waiting for payment
-        change status 4 Rodionov Ivan Vladimirovich to completed
-
-        view appointments ...
+        view client appointments ...
         отображает встречи определенного клиента, необходимо ввести ФИО клиента
-        view appointments Rodionov Ivan Vladimirovich
+        view client appointments lekhmanov Nikolay Igorevich
+
+        change status ... to ...
+        меняем статус у встречи, поиск встречи осуществляется по номеру, его можно получить с помощью
+        команды view appointment и статус на который хотим поменять
+        (in progress, canceled, waiting for payment, completed), примеры:
+        change status 1 to in progress
+        change status 2 to canceled
+        change status 3 to waiting for payment
+        change status 4 to completed
 
         exit
         Осуществляет выход из программы предварительно сохранив данный о созданных сотрудниках
@@ -62,10 +67,12 @@ public class Main {
          */
 
 
+          CommandReader.startReading();
 
-        ObjectReader.readUserRepository();   // загрузка данный из файла в UserRepository
-        Authentication.authenticate();
-        CommandReader.startReading();
+//        var user = ClientRepositoryImpl.GET_CLIENT_REPOSITORY_SQL().getClient(new Client("lekhmanov", "Nikolay", "Igorevich"));
+//        System.out.println(AppointmentRepositoryImpl.GET_APPOINTMENT_REPOSITORY_SQL().getAppointment(user).printInfo());
+
+
     }
 
 }

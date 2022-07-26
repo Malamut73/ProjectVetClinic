@@ -1,9 +1,5 @@
 package vetClinic;
 
-import repository.UserRepositoryImpl;
-import users.Staff;
-import users.User;
-
 import java.util.Scanner;
 
 public class Authentication {
@@ -41,14 +37,14 @@ public class Authentication {
 
     private static boolean validate(String login, String password) {
 
-        for (User user : UserRepositoryImpl.getSingleton().findAll()) {
-            if(user instanceof Staff){
-                if(((Staff)user).getLogin().equals(login)){
-                    return ((Staff)user).getPassword().equals(password);
-                }
-            }
-
-        }
+//        for (OldUserClass user : OldUserRepositoryImpl.getSingleton().findAll()) {
+//            if(user instanceof OldStaff){
+//                if(((OldStaff)user).getLogin().equals(login)){
+//                    return ((OldStaff)user).getPassword().equals(password);
+//                }
+//            }
+//
+//        }
         return false;
     }
 

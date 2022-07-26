@@ -1,29 +1,32 @@
 package command;
 
-import command.executer.*;
-import command.executer.commands.*;
-import command.executer.commands.appointmnentCommands.AppointmentCreator;
-import command.executer.commands.appointmnentCommands.AppointmentEditor;
-import command.executer.commands.appointmnentCommands.AppointmentViewer;
-import command.executer.commands.userCommands.*;
+import command.executer.CommandExecutor;
+import command.executer.commands.appointmnentcommands.AppointmentCreator;
+import command.executer.commands.appointmnentcommands.AppointmentEditor;
+import command.executer.commands.appointmnentcommands.AppointmentViewer;
+import command.executer.commands.appointmnentcommands.ClientAppointmentViewer;
+import command.executer.commands.usercommands.*;
 
 import java.util.Map;
 import java.util.Scanner;
 
 public class CommandReader {
+
     private static final Map<CommandType, CommandExecutor>  COMMAND_EXECUTOR_MAP = Map.of(
+            CommandType.VIEW_CLIENTS, new ClientsViewer(),
             CommandType.CREATE_CLIENT, new ClientCreator(),
             CommandType.CREATE_STAFF, new StaffCreator(),
+            CommandType.VIEW_STAFF, new StaffViewer(),
             CommandType.CREATE_APPOINTMENT, new AppointmentCreator(),
+            CommandType.VIEW_ALL_APPOINTMENTS, new AppointmentViewer(),
+            CommandType.VIEW_CLIENT_APPOINTMENTS, new ClientAppointmentViewer(),
             CommandType.EDIT_APPOINTMENT, new AppointmentEditor(),
-            CommandType.EDIT_FULL_NAME, new FullNameEditor(),
-            CommandType.VIEW_CLIENTS, new ClientsViewer(),
-            CommandType.VIEW_APPOINTMENTS, new AppointmentViewer(),
-            CommandType.DELETE_CLIENT, new ClientDeleter(),
-            CommandType.EXIT, new Exister()
+            CommandType.EDIT_CLIENT, new ClientEditor()
+
     );
 
     public static void startReading(){
+
         Scanner scanner = new Scanner(System.in);
 
         int i = 1;
@@ -42,9 +45,7 @@ public class CommandReader {
         }else{
             System.out.println("Incorrect command");
         }
-// else if(commandType == CommandType.EXIT){
-//            return 0;
-//        }
+
         return -1;
     }
     private static CommandType getCommandType(String commandString){
@@ -57,15 +58,17 @@ public class CommandReader {
         }else if(commandString.contains("delete client")) {
             return CommandType.DELETE_CLIENT;
         }else if(commandString.contains("edit client")){
-            return CommandType.EDIT_FULL_NAME;
+            return CommandType.EDIT_CLIENT;
         }else if(commandString.contains("create appointment")){
             return CommandType.CREATE_APPOINTMENT;
         }else if(commandString.contains("change status")){
             return CommandType.EDIT_APPOINTMENT;
         }else if(commandString.contains("view appointments")){
-            return CommandType.VIEW_APPOINTMENTS;
-        }else if(commandString.contains("exit")){
-            return CommandType.EXIT;
+            return CommandType.VIEW_ALL_APPOINTMENTS;
+        }else if(commandString.contains("view client appointments")){
+            return CommandType.VIEW_CLIENT_APPOINTMENTS;
+        }else if(commandString.contains("view staff")){
+            return CommandType.VIEW_STAFF;
         }
 
         return CommandType.UNDEFINED;

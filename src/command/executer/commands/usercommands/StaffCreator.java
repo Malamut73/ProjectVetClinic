@@ -1,11 +1,8 @@
-package command.executer.commands.userCommands;
+package command.executer.commands.usercommands;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
-import users.Staff;
-import users.User;
-
-import java.util.Optional;
+import moduls.Staff;
 
 public class StaffCreator extends AbstractCommandExecutor {
 
@@ -27,17 +24,16 @@ public class StaffCreator extends AbstractCommandExecutor {
         var login = wordArray[5];
         var password = wordArray[6];
 
-        var fullName = lastName + " " + firstName + " " + middleName;
+        Staff newStaff = new Staff(lastName, firstName, middleName, login, password);
 
-        Optional<User> staffToCreate = findUser(fullName);
-        if(staffToCreate.isPresent()){
+        if(!(staffRepository.getStaff(newStaff) == null)){
+
             System.out.println("Staff already exists");
             return -1;
-        }
-        Staff newClient = new Staff(lastName, firstName, middleName, login, password);
-        userRepository.save(newClient);
 
-        System.out.println("New staff was created");
+        }else{
+            staffRepository.saveStaff(newStaff);
+        }
 
         return 1;
     }
