@@ -3,11 +3,14 @@ package command.executer.commands.appointmnentcommands;
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
 import connector.Connector;
+import moduls.Appointment;
 import repository.config.ConfigAppointment;
+import repository.impl.AppointmentRepositoryImpl;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AppointmentEditor extends AbstractCommandExecutor {
+public class AppointmentStatusChanger extends AbstractCommandExecutor {
 
     @Override
     public int execute(String command) {
@@ -20,7 +23,7 @@ public class AppointmentEditor extends AbstractCommandExecutor {
 
     private int editAppointment(String command){
 
-
+//         change status 1 to in progress
 
         var wordArray = command.split(" ");
         int appointmentNumber = Integer.parseInt(wordArray[2]);
@@ -31,25 +34,8 @@ public class AppointmentEditor extends AbstractCommandExecutor {
 
         }
 
-        String select = " UPDATE " +
-                ConfigAppointment.APPOINTMENT_TABLE +
-                " SET " +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.STATUS +
-                " = " + "'" + nameOfStatus.toString().trim() + "'" +
-                " WHERE " +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_APPOINTMENT +
-                " = " + appointmentNumber;
-        System.out.println(select);
-
-        try {
-            Statement statement = Connector.getConnection().createStatement();
-            statement.executeUpdate(select);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Appointment was change");
-
+        Appointment appointment = new Appointment(appointmentNumber, nameOfStatus.toString().trim());
+        AppointmentRepositoryImpl.GET_APPOINTMENT_REPOSITORY_SQL().editAppointment(appointment);
 
         return 1;
     }

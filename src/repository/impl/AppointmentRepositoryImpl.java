@@ -6,16 +6,11 @@ import moduls.Client;
 import moduls.Staff;
 import moduls.User;
 import repository.AppointmentRepository;
-import repository.StaffRepository;
-import repository.config.AbstractConfig;
 import repository.config.ConfigAppointment;
 import repository.config.ConfigClient;
 import repository.config.ConfigStaff;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -64,6 +59,26 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public void editAppointment(Appointment appointment) {
+
+
+        String select = " UPDATE " +
+                ConfigAppointment.APPOINTMENT_TABLE +
+                " SET " +
+                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.STATUS +
+                " = " + "'" + appointment.getStatus() + "'" +
+                " WHERE " +
+                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_APPOINTMENT +
+                " = " + appointment.getIdAppointment();
+        System.out.println(select);
+
+        try {
+            Statement statement = Connector.getConnection().createStatement();
+            statement.executeUpdate(select);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Appointment was change");
 
     }
 
@@ -127,14 +142,6 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
         Set<Appointment> clientAppointment = new HashSet<>();
 
-        String userTable;
-        String userColumn;
-        String oppositeUserTable;
-        String oppositeUserColumn;
-//        User client;
-
-
-
         String select = "SELECT " +
                 ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_APPOINTMENT + ", "  +
                 ConfigClient.CLIENT_TABLE + "." + ConfigClient.LASTNAME + ", " +
@@ -175,9 +182,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                 Date dateOfAppointment = resultSet.getDate(ConfigAppointment.DATE_OF_APPOINTMENT);
                 String status = resultSet.getString(ConfigAppointment.STATUS);
 
-//                Client clietn = ClientRepositoryImpl.GET_CLIENT_REPOSITORY_SQL().getClient(new Client(clientLastName, clientFirstName, clientMiddleName));
                 Client tmpClient = new Client(clientLastName, clientFirstName, clientMiddleName);
-//                Staff staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().getStaff(new Staff(staffLastName, staffFirstName, staffMiddleName));
                 Staff tmpStaff = new Staff(staffLastName, staffFirstName, staffMiddleName);
 
                 Appointment appointment = new Appointment(appointmentId, status, tmpStaff, dateOfAppointment, tmpClient, dateOfAppointment);

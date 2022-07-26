@@ -34,10 +34,8 @@ public class AppointmentCreator extends AbstractCommandExecutor {
 
         String status = "new appointment";
 
-        Client newClient = new Client (lastName, firstName, middleName);
         Client client = clientRepository.getClient(new Client(lastName, firstName, middleName));
         Staff staff = staffRepository.getStaff(new Staff(staffLastName, staffFirstName, staffMiddleName));
-//        Staff newStaff = new Staff(lastName, firstName, middleName);
 
         if(client == null){
             System.out.println("Client not found");
@@ -48,9 +46,7 @@ public class AppointmentCreator extends AbstractCommandExecutor {
             return -1;
         }
 
-
         Appointment appointment = new Appointment(dateOfAppointment, staff, status, client);
-        String str = " ";
         appointmentRepository.saveAppointment(appointment);
 
         return 1;

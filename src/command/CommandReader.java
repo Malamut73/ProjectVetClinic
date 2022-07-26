@@ -2,7 +2,7 @@ package command;
 
 import command.executer.CommandExecutor;
 import command.executer.commands.appointmnentcommands.AppointmentCreator;
-import command.executer.commands.appointmnentcommands.AppointmentEditor;
+import command.executer.commands.appointmnentcommands.AppointmentStatusChanger;
 import command.executer.commands.appointmnentcommands.AppointmentViewer;
 import command.executer.commands.appointmnentcommands.ClientAppointmentViewer;
 import command.executer.commands.usercommands.*;
@@ -20,7 +20,7 @@ public class CommandReader {
             CommandType.CREATE_APPOINTMENT, new AppointmentCreator(),
             CommandType.VIEW_ALL_APPOINTMENTS, new AppointmentViewer(),
             CommandType.VIEW_CLIENT_APPOINTMENTS, new ClientAppointmentViewer(),
-            CommandType.EDIT_APPOINTMENT, new AppointmentEditor(),
+            CommandType.EDIT_APPOINTMENT, new AppointmentStatusChanger(),
             CommandType.EDIT_CLIENT, new ClientEditor()
 
     );

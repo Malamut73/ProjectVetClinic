@@ -28,6 +28,10 @@ public class Appointment {
         this.client = client;
     }
 
+    public Appointment(int idAppointment, String status) {
+        this.idAppointment = idAppointment;
+        this.status = status;
+    }
 
     public Appointment(int idAppointment, String appointmentType, Staff Staff, Date dateOfAppointment, Client Client, Date dateOfCreation){
         this.dateOfAppointment = dateOfAppointment;
@@ -37,9 +41,6 @@ public class Appointment {
         this.idAppointment = idAppointment;
         this.dateOfCreation = dateOfCreation;
     }
-
-
-
 
     public Staff getStaff() {
         return staff;
@@ -77,10 +78,9 @@ public class Appointment {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public int getIdAppointment() {
+        return idAppointment;
     }
-
 
     @Override
     public boolean equals(Object o) {

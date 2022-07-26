@@ -7,6 +7,7 @@ import moduls.Client;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -49,6 +50,26 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
     @Override
     public void editClient(Client client) {
+
+        String select = " UPDATE " +
+                ConfigClient.CLIENT_TABLE +
+                " SET " +
+                ConfigClient.CLIENT_TABLE + "." + ConfigClient.LASTNAME + " = " + "'" + client.getLastName() + "'" + ", " +
+                ConfigClient.CLIENT_TABLE + "." + ConfigClient.FIRSTNAME +  " = " + "'" + client.getFirstName() + "'" + ", " +
+                ConfigClient.CLIENT_TABLE + "." + ConfigClient.MIDDLE_NAME + " = " + "'" + client.getMiddleName() + "'" + " " +
+                " WHERE " +
+                ConfigClient.CLIENT_TABLE + "." + ConfigClient.ID_CLIENT + " = " + client.getUserId();
+        System.out.println(select);
+
+        try {
+            Statement statement = Connector.getConnection().createStatement();
+            statement.executeUpdate(select);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Client was edit");
+
     }
     @Override
     public Set<Client> findAll() {

@@ -40,25 +40,9 @@ public class ClientEditor extends AbstractCommandExecutor {
             System.out.println("None of clients was found");
             return -1;
         }
+        ClientRepositoryImpl.GET_CLIENT_REPOSITORY_SQL().editClient(newClient);
 
-        String select = " UPDATE " +
-                ConfigClient.CLIENT_TABLE +
-                " SET " +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.LASTNAME + " = " + "'" + newLastName + "'" + ", " +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.FIRSTNAME +  " = " + "'" + newFirstName + "'" + ", " +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.MIDDLE_NAME + " = " + "'" + newMiddleName + "'" + " " +
-                " WHERE " +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.ID_CLIENT + " = " + newClient.getUserId();
-        System.out.println(select);
 
-        try {
-            Statement statement = Connector.getConnection().createStatement();
-            statement.executeUpdate(select);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Client was edit");
 
         return 1;
 

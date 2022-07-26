@@ -19,19 +19,14 @@ public class ClientAppointmentViewer extends AbstractCommandExecutor {
 
     private int viewClientAppointments (String command){
 
-//        view client appointments Rodionov Ivan Vladimirovich
-
-
         var wordArray = command.split(" ");
         var lastName = wordArray[3];
         var firstName = wordArray[4];
         var middleName = wordArray[5];
 
 
-//        Client newClient = new Client (lastName, firstName, middleName);
         Client client = clientRepository.getClient(new Client(lastName, firstName, middleName));
-//        Staff staff = staffRepository.getStaff(new Staff(staffLastName, staffFirstName, staffMiddleName));
-//        Staff newStaff = new Staff(lastName, firstName, middleName);
+
 
         if(client == null){
             System.out.println("Client not found");

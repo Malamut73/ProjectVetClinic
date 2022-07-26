@@ -15,6 +15,22 @@ public class Main {
 
         commands:
 
+        create client lekhmanov Nikolay Igorevich
+        create staff Skitin Artem Mihailovich admin admin
+        create appointment Rodionov Ivan Vladimirovich to Skitin Artem Mihailovich on 03.07.2022 22:00
+        view clients
+        view staff
+        view appointments
+        view client appointments lekhmanov Nikolay Igorevich
+        edit client Rodionov Ivan Vladimirovich to Korolev Ivan Vladimirovich
+        change status 1 to in progress
+        change status 2 to canceled
+        change status 3 to waiting for payment
+        change status 4 to completed
+
+
+
+
         create client ...
         Создает клиента с уникальным id и датой создания, необходимо ввести ФИО, примеры:
         create client lekhmanov Nikolay Igorevich
@@ -60,17 +76,14 @@ public class Main {
         change status 3 to waiting for payment
         change status 4 to completed
 
-        exit
-        Осуществляет выход из программы предварительно сохранив данный о созданных сотрудниках
-        клиентах и встречах
+
 
          */
 
 
           CommandReader.startReading();
 
-//        var user = ClientRepositoryImpl.GET_CLIENT_REPOSITORY_SQL().getClient(new Client("lekhmanov", "Nikolay", "Igorevich"));
-//        System.out.println(AppointmentRepositoryImpl.GET_APPOINTMENT_REPOSITORY_SQL().getAppointment(user).printInfo());
+
 
 
     }

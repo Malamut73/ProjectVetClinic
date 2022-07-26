@@ -24,22 +24,6 @@ public class AppointmentViewer extends AbstractCommandExecutor {
             System.out.println(appointment.printInfo());
         }
 
-//        var wordArray = command.split(" ");
-//        var lastName = wordArray[2];
-//        var firstName = wordArray[3];
-//        var middleName = wordArray[4];
-//        var fullName = lastName + " " + firstName + " " + middleName;
-//
-//        int countClients = 0;
-//
-//        for (Appointment appointment :
-//                appointmentRepository.findAll()) {
-//            countClients++;
-//            System.out.println(appointment.toString());
-//        }
-//        if(countClients == 0){
-//            System.out.println("Any appointments was found.");
-//        }
         return 1;
     }
 }

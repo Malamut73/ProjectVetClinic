@@ -43,17 +43,12 @@ public abstract class User{
                 return userId;
         }
 
-        public void setUserId(int userId) {
-                this.userId = userId;
-        }
-
         @Override
         public String toString() {
 
                 return userId + " " + lastName + " " + firstName + " " + middleName + " " + dateOfRegistration;
 
         }
-
         @Override
         public boolean equals(Object o) {
                 if (this == o) return true;
@@ -61,7 +56,6 @@ public abstract class User{
                 User user = (User) o;
                 return Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(middleName, user.middleName);
         }
-
         @Override
         public int hashCode() {
                 return Objects.hash(firstName, lastName, middleName);
