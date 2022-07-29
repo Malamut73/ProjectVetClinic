@@ -3,27 +3,34 @@ package command;
 import command.executer.CommandExecutor;
 import command.executer.commands.appointmnentcommands.AppointmentCreator;
 import command.executer.commands.appointmnentcommands.AppointmentStatusChanger;
-import command.executer.commands.appointmnentcommands.AppointmentViewer;
 import command.executer.commands.appointmnentcommands.ClientAppointmentViewer;
 import command.executer.commands.usercommands.*;
+import helper.Helper;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class CommandReader {
 
-    private static final Map<CommandType, CommandExecutor>  COMMAND_EXECUTOR_MAP = Map.of(
-            CommandType.VIEW_CLIENTS, new ClientsViewer(),
-            CommandType.CREATE_CLIENT, new ClientCreator(),
-            CommandType.CREATE_STAFF, new StaffCreator(),
-            CommandType.VIEW_STAFF, new StaffViewer(),
-            CommandType.CREATE_APPOINTMENT, new AppointmentCreator(),
-            CommandType.VIEW_ALL_APPOINTMENTS, new AppointmentViewer(),
-            CommandType.VIEW_CLIENT_APPOINTMENTS, new ClientAppointmentViewer(),
-            CommandType.EDIT_APPOINTMENT, new AppointmentStatusChanger(),
-            CommandType.EDIT_CLIENT, new ClientEditor()
 
-    );
+    private static final Map<CommandType, CommandExecutor>  COMMAND_EXECUTOR_MAP = new HashMap<>();
+    static {
+        COMMAND_EXECUTOR_MAP.put(CommandType.VIEW_CLIENTS, new ClientsViewer());
+        COMMAND_EXECUTOR_MAP.put(CommandType.CREATE_CLIENT, new ClientCreator());
+        COMMAND_EXECUTOR_MAP.put(CommandType.CREATE_STAFF, new StaffCreator());
+        COMMAND_EXECUTOR_MAP.put(CommandType.VIEW_STAFF, new StaffViewer());
+        COMMAND_EXECUTOR_MAP.put(CommandType.CREATE_APPOINTMENT, new AppointmentCreator());
+        COMMAND_EXECUTOR_MAP.put(CommandType.VIEW_CLIENT_APPOINTMENTS, new ClientAppointmentViewer());
+        COMMAND_EXECUTOR_MAP.put(CommandType.EDIT_APPOINTMENT, new AppointmentStatusChanger());
+        COMMAND_EXECUTOR_MAP.put(CommandType.EDIT_CLIENT, new ClientEditor());
+        COMMAND_EXECUTOR_MAP.put(CommandType.DELETE_CLIENT, new ClientDeleter());
+        COMMAND_EXECUTOR_MAP.put(CommandType.DELETE_STAFF, new StaffDeleter());
+//        COMMAND_EXECUTOR_MAP.put();
+
+
+    }
+
 
     public static void startReading(){
 
@@ -63,12 +70,12 @@ public class CommandReader {
             return CommandType.CREATE_APPOINTMENT;
         }else if(commandString.contains("change status")){
             return CommandType.EDIT_APPOINTMENT;
-        }else if(commandString.contains("view appointments")){
-            return CommandType.VIEW_ALL_APPOINTMENTS;
         }else if(commandString.contains("view client appointments")){
             return CommandType.VIEW_CLIENT_APPOINTMENTS;
         }else if(commandString.contains("view staff")){
             return CommandType.VIEW_STAFF;
+        }else if(commandString.contains("delete staff")){
+            return CommandType.DELETE_STAFF;
         }
 
         return CommandType.UNDEFINED;

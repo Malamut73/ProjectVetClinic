@@ -16,15 +16,15 @@ public class StaffCreator extends AbstractCommandExecutor {
     }
 
     public int createStaff(String command){
-
+// create staff Skitin Artem Mihailovich admin
         var wordArray = command.split(" ");
         var lastName = wordArray[2];
         var firstName = wordArray[3];
         var middleName = wordArray[4];
         var login = wordArray[5];
-        var password = wordArray[6];
+        var password = "";
 
-        Staff newStaff = new Staff(lastName, firstName, middleName, login, password);
+        Staff newStaff = new Staff(lastName, firstName, middleName, login, password, "admin");
 
         if(!(staffRepository.getStaff(newStaff) == null)){
 
@@ -33,6 +33,7 @@ public class StaffCreator extends AbstractCommandExecutor {
 
         }else{
             staffRepository.saveStaff(newStaff);
+
         }
 
         return 1;

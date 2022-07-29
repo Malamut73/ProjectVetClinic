@@ -4,7 +4,6 @@ import command.CommandType;
 import command.executer.AbstractCommandExecutor;
 import connector.Connector;
 import moduls.Appointment;
-import repository.config.ConfigAppointment;
 import repository.impl.AppointmentRepositoryImpl;
 
 import java.sql.SQLException;
@@ -18,7 +17,7 @@ public class AppointmentStatusChanger extends AbstractCommandExecutor {
     }
     @Override
     public CommandType getCommandType() {
-        return CommandType.CREATE_APPOINTMENT;
+        return CommandType.EDIT_APPOINTMENT;
     }
 
     private int editAppointment(String command){

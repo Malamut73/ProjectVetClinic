@@ -17,15 +17,15 @@ public class StaffViewer extends AbstractCommandExecutor {
     }
 
     private int viewStaff(String command) {
-
-        int countStaff = 0;
-
-        for (Staff staff :
-                staffRepository.findAll()) {
-            countStaff++;
-            System.out.println(staff.toString());
-        }
-        if(countStaff == 0){
+//
+//        int countStaff = 0;
+//
+//        for (Staff staff :
+//                staffRepository.findAll()) {
+//            countStaff++;
+//            System.out.println(staff.toString());
+//        }
+        if(!staffRepository.findAll()){
             System.out.println("Any staff was found.");
         }
         return 1;

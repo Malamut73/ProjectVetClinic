@@ -5,6 +5,7 @@ public enum CommandType {
     CREATE_STAFF,
     VIEW_STAFF,
     DELETE_CLIENT,
+    DELETE_STAFF,
     EDIT_CLIENT,
     VIEW_CLIENTS,
     CREATE_APPOINTMENT,

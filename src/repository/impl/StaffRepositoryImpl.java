@@ -1,14 +1,15 @@
 package repository.impl;
 
 import connector.Connector;
+import moduls.Client;
 import repository.StaffRepository;
-import repository.config.ConfigStaff;
 import moduls.Staff;
+import repository.config.ConfigLogPass;
+import repository.config.ConfigUsers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,100 +25,191 @@ public class StaffRepositoryImpl implements StaffRepository {
         return STAFF_REPOSITORY;
     }
 
+
+
     @Override
     public void saveStaff(Staff staff) {
 
-        String insert = "INSERT INTO " +
-                ConfigStaff.STAFF_TABLE + "(" +
-                ConfigStaff.LASTNAME + "," +
-                ConfigStaff.FIRSTNAME + "," +
-                ConfigStaff.MIDDLE_NAME + "," +
-                ConfigStaff.LOGIN + "," +
-                ConfigStaff.PASSWORD + ")" +
-                "VALUES(?,?,?,?,?)";
-
+        String insert = "INSERT INTO " + ConfigUsers.USERS_TABLE + " (" +
+                ConfigUsers.LASTNAME + ", " +
+                ConfigUsers.FIRSTNAME + ", " +
+                ConfigUsers.MIDDLE_NAME + ", " +
+                ConfigUsers.USER_ROLE + ")" +
+                "VALUES(?,?,?,?)";
         try {
             PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(insert);
             preparedStatement.setString(1, staff.getLastName());
             preparedStatement.setString(2, staff.getFirstName());
             preparedStatement.setString(3, staff.getMiddleName());
-            preparedStatement.setString(4, staff.getLogin());
-            preparedStatement.setString(5, staff.getPassword());
+            preparedStatement.setString(4, staff.getRole());
             preparedStatement.executeUpdate();
-            System.out.println("New staff was created");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
 
+        String insertLogPass =
+                "INSERT INTO " + ConfigLogPass.LOG_PASS_TABLE + " (" +
+                        ConfigLogPass.LOGIN + ", " +
+                        ConfigLogPass.PASSWORD + ", " +
+                        ConfigLogPass.USER_ID + ")" +
+                        "VALUES(?, ?, ?)";
+
+        Staff staffDB = getStaff(staff);
+        try {
+            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(insertLogPass);
+            preparedStatement.setString(1, staff.getLogin());
+            preparedStatement.setString(2, staff.getPassword());
+            preparedStatement.setInt(3, staffDB.getUserId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("New staff was created");
+
+    }
     @Override
     public void removeStaff(Staff staff) {
-    }
-    @Override
-    public void editStaff(Staff staff) {
-    }
-    @Override
-    public Set<Staff> findAll() {
+        String delete =
+                "DELETE FROM " + ConfigUsers.USERS_TABLE +
+                        " WHERE " +
+                        ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + " = ? AND " +
+                        ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME + " = ? AND " +
+                        ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME + " = ?";
 
-        String select = "SELECT * FROM " + ConfigStaff.STAFF_TABLE;
-
-        try{
-            PreparedStatement preparedStatement = Connector.getConnection()
-                    .prepareStatement(select);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-
-                int userId = resultSet.getInt(ConfigStaff.ID_STAFF);
-                String firstName = resultSet.getString(ConfigStaff.FIRSTNAME);
-                String lastName = resultSet.getString(ConfigStaff.LASTNAME);
-                String middleName = resultSet.getString(ConfigStaff.MIDDLE_NAME);
-                String login = resultSet.getString(ConfigStaff.LOGIN);
-                String password = resultSet.getString(ConfigStaff.PASSWORD);
-                Date dateOfRegistration = resultSet.getDate(ConfigStaff.DATE_OF_REGISTRATION);
-
-                STAFF.add(new Staff(userId, lastName, firstName, middleName, login, password, dateOfRegistration));
-            }
-
+        ;
+        try{PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(delete);
+            preparedStatement.setString(1, staff.getLastName());
+            preparedStatement.setString(2, staff.getFirstName());
+            preparedStatement.setString(3, staff.getMiddleName());
+            preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        return STAFF;
+        System.out.println("Staff was deleted");
     }
-
     @Override
-    public Staff getStaff(Staff staff) {
+    public void editStaff(Staff staff) {
 
-        Staff tmpStaff = null;
-        ResultSet resultSet;
-
-        String select = "SELECT * FROM " +
-                ConfigStaff.STAFF_TABLE + " WHERE " +
-                ConfigStaff.LASTNAME + " =? AND " +
-                ConfigStaff.FIRSTNAME + " =? AND " +
-                ConfigStaff.MIDDLE_NAME + " =?";
+        String select =
+                "UPDATE " + ConfigUsers.USERS_TABLE +
+                        " SET " +
+                        ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + " = ?, " +
+                        ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME +  " = ?, " +
+                        ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME + " = ? " +
+                        " WHERE " +
+                        ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER + " = ?";
 
         try {
             PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
             preparedStatement.setString(1, staff.getLastName());
             preparedStatement.setString(2, staff.getFirstName());
             preparedStatement.setString(3, staff.getMiddleName());
+            preparedStatement.setInt(4, staff.getUserId());
+            preparedStatement.executeUpdate();
+//            System.out.println(preparedStatement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Staff was edit");
+    }
+    @Override
+    public boolean findAll() {
+
+        Staff staff = null;
+        ResultSet resultSet;
+
+        String select = "SELECT " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER + ", " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + ", " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME + ", " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME + ", " +
+                ConfigLogPass.LOG_PASS_TABLE + "." + ConfigLogPass.LOGIN + ", " +
+                ConfigLogPass.LOG_PASS_TABLE + "." + ConfigLogPass.PASSWORD + ", " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.USER_ROLE +
+                " FROM " + ConfigUsers.USERS_TABLE +
+                " INNER JOIN " + ConfigLogPass.LOG_PASS_TABLE +
+                " ON " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER + " = " +
+                ConfigLogPass.LOG_PASS_TABLE + "." + ConfigLogPass.USER_ID +
+                " WHERE " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.USER_ROLE +
+                " = ?";
+        try{
+            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
+            preparedStatement.setString(1,ConfigUsers.ADMIN_TYPE);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                int userId = resultSet.getInt(ConfigUsers.ID_USER);
+                String lastName = resultSet.getString(ConfigUsers.LASTNAME);
+                String firstName = resultSet.getString(ConfigUsers.FIRSTNAME);
+                String middleName = resultSet.getString(ConfigUsers.MIDDLE_NAME);
+                String loginDB = resultSet.getString(ConfigLogPass.LOGIN);
+                String passwordDB = resultSet.getString(ConfigLogPass.PASSWORD);
+                String role = resultSet.getString(ConfigUsers.USER_ROLE);
+                STAFF.add(new Staff(userId, lastName, firstName, middleName, loginDB, passwordDB, role));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return staff != null ? true : false;
+    }
+    @Override
+    public Staff getStaff(Staff staff) {
+
+        Staff tmpStaff = null;
+        ResultSet resultSet;
+
+        String selectFIO = "SELECT * FROM " + ConfigUsers.USERS_TABLE +
+                " WHERE " +
+                ConfigUsers.LASTNAME + " =? AND " +
+                ConfigUsers.FIRSTNAME + " =? AND " +
+                ConfigUsers.MIDDLE_NAME + " =?";
+        try {
+            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(selectFIO);
+            preparedStatement.setString(1, staff.getLastName());
+            preparedStatement.setString(2, staff.getFirstName());
+            preparedStatement.setString(3, staff.getMiddleName());
             resultSet =  preparedStatement.executeQuery();
 
             while (resultSet.next()){
-                int staffId = resultSet.getInt(ConfigStaff.ID_STAFF);
-                String firstName = resultSet.getString(ConfigStaff.FIRSTNAME);
-                String lastName = resultSet.getString(ConfigStaff.LASTNAME);
-                String middleName = resultSet.getString(ConfigStaff.MIDDLE_NAME);
-                Date dateOfRegistration = resultSet.getDate(ConfigStaff.DATE_OF_REGISTRATION);
-                tmpStaff = new Staff(staffId, lastName, firstName, middleName, dateOfRegistration);
-
+                int userId = resultSet.getInt(ConfigUsers.ID_USER);
+                String lastName = resultSet.getString(ConfigUsers.LASTNAME);
+                String firstName = resultSet.getString(ConfigUsers.FIRSTNAME);
+                String middleName = resultSet.getString(ConfigUsers.MIDDLE_NAME);
+                String role = resultSet.getString(ConfigUsers.USER_ROLE);
+                tmpStaff = new Staff(userId, lastName, firstName, middleName, null, null, role);
             }
         }catch (SQLException  e) {
             e.printStackTrace();
         }
+
+        if(!(tmpStaff == null)){
+            String selectLP = "SELECT * FROM " + ConfigLogPass.LOG_PASS_TABLE +
+                    " WHERE " +
+                    ConfigLogPass.USER_ID + " =?";
+            try {
+                PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(selectLP);
+                preparedStatement.setInt(1, tmpStaff.getUserId());
+                resultSet =  preparedStatement.executeQuery();
+
+                while (resultSet.next()){
+                    String loginDB = resultSet.getString(ConfigLogPass.LOGIN);
+                    String passwordDB = resultSet.getString(ConfigLogPass.PASSWORD);
+                    tmpStaff.setLogin(loginDB);
+                    tmpStaff.setPassword(passwordDB);
+                }
+            }catch (SQLException  e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
         return tmpStaff;
     }
 

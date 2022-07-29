@@ -9,7 +9,7 @@ public interface StaffRepository {
     void saveStaff (Staff staff);
     void removeStaff (Staff staff);
     void editStaff (Staff staff);
-    Set<Staff> findAll();
+    boolean findAll();
     Staff getStaff(Staff staff);
 
 

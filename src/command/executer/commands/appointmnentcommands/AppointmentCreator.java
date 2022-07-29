@@ -46,8 +46,8 @@ public class AppointmentCreator extends AbstractCommandExecutor {
             return -1;
         }
 
-        Appointment appointment = new Appointment(dateOfAppointment, staff, status, client);
-        appointmentRepository.saveAppointment(appointment);
+        appointmentRepository.saveAppointment(new Appointment(dateOfAppointment, staff, status, client));
+
 
         return 1;
     }

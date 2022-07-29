@@ -33,10 +33,15 @@ public class ClientAppointmentViewer extends AbstractCommandExecutor {
             return -1;
         }
 
-        for (Appointment appointment :
-                appointmentRepository.getAppointment(client)) {
-            System.out.println(appointment.printInfo());
+        if(!appointmentRepository.getClientAppointments(client)){
+            System.out.println("Any appointments was found");
         }
+
+
+//        for (Appointment appointment :
+//                appointmentRepository.getClientAppointments(client)) {
+//            System.out.println(appointment.printInfo());
+//        }
 
         return 1;
     }

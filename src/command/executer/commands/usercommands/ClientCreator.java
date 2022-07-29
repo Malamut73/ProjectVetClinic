@@ -23,8 +23,10 @@ public class ClientCreator extends AbstractCommandExecutor {
         var lastName = wordArray[2];
         var firstName = wordArray[3];
         var middleName = wordArray[4];
+        var login = wordArray[5];
+        var password = "";
 
-        Client newClient = new Client (lastName, firstName, middleName);
+        Client newClient = new Client (lastName, firstName, middleName, login, password, "user");
 
         if(!(clientRepository.getClient(newClient) == null)){
 

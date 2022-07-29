@@ -9,7 +9,7 @@ public interface ClientRepository {
     void saveClient (Client client);
     void removeClient (Client client);
     void editClient (Client client);
-    Set<Client> findAll();
+    boolean findAll();
     Client getClient(Client client);
 
 

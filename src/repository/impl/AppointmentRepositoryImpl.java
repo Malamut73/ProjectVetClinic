@@ -6,9 +6,9 @@ import moduls.Client;
 import moduls.Staff;
 import moduls.User;
 import repository.AppointmentRepository;
-import repository.config.ConfigAppointment;
-import repository.config.ConfigClient;
-import repository.config.ConfigStaff;
+import repository.config.ConfigAppointments;
+import repository.config.ConfigUsers;
+
 
 import java.sql.*;
 import java.util.HashSet;
@@ -29,172 +29,141 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public void saveAppointment(Appointment appointment) {
 
-        String insert = "INSERT INTO " + ConfigAppointment.APPOINTMENT_TABLE + "(" +
-                ConfigAppointment.ID_STAFF + "," +
-                ConfigAppointment.ID_CLIENT + "," +
-                ConfigAppointment.STATUS + "," +
-                ConfigAppointment.DATE_OF_APPOINTMENT +
-                ")" +
-                "VALUES(?,?,?,?)";
+        String insert = "INSERT INTO " + ConfigAppointments.APPOINTMENT_TABLE + "( " +
+                ConfigAppointments.DATE_OF_APPOINTMENT + ", " +
+                ConfigAppointments.STAFF_ID + ", " +
+                ConfigAppointments.CLIENT_ID + ", " +
+                ConfigAppointments.STATUS + ")" +
+                " VALUES(?, ?, ?, ?)";
 
-        try {
-            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(insert);
-            preparedStatement.setInt(1, appointment.getStaff().getUserId());
-            preparedStatement.setInt(2, appointment.getClient().getUserId());
-            preparedStatement.setString(3, appointment.getStatus());
-            preparedStatement.setTimestamp(4, appointment.getSqlDate());
 
+        try{PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(insert);
+            preparedStatement.setTimestamp(1, appointment.getSqlDate());
+            preparedStatement.setInt(2, appointment.getStaff().getUserId());
+            preparedStatement.setInt(3, appointment.getClient().getUserId());
+            preparedStatement.setString(4, appointment.getStatus());
             preparedStatement.executeUpdate();
-            System.out.println("New appointment was created");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-    }
 
-    @Override
-    public void removeAppointment(Appointment appointment) {
-
+        System.out.println("Appointment was created");
     }
 
     @Override
     public void editAppointment(Appointment appointment) {
-
-
-        String select = " UPDATE " +
-                ConfigAppointment.APPOINTMENT_TABLE +
+                String select = " UPDATE " +
+                ConfigAppointments.APPOINTMENT_TABLE +
                 " SET " +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.STATUS +
-                " = " + "'" + appointment.getStatus() + "'" +
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.STATUS + " = ?" +
                 " WHERE " +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_APPOINTMENT +
-                " = " + appointment.getIdAppointment();
-        System.out.println(select);
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.ID_APPOINTMENT + " =?";
+//        System.out.println(select);
 
-        try {
-            Statement statement = Connector.getConnection().createStatement();
-            statement.executeUpdate(select);
+        try {PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
+            preparedStatement.setString(1, appointment.getStatus());
+            preparedStatement.setInt(2, appointment.getIdAppointment());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         System.out.println("Appointment was change");
-
     }
 
     @Override
-    public Set<Appointment> findAll() {
+    public boolean getClientAppointments(Client client) {
+
+        Staff staff;
+        Appointment appointment = null;
+        ResultSet resultSet;
 
         String select = "SELECT " +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_APPOINTMENT + ", "  +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.LASTNAME + ", " +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.FIRSTNAME + ", " +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.MIDDLE_NAME + ", " +
-                ConfigStaff.STAFF_TABLE + "." + ConfigStaff.FIRSTNAME + ", " +
-                ConfigStaff.STAFF_TABLE + "." + ConfigStaff.LASTNAME + ", " +
-                ConfigStaff.STAFF_TABLE + "." + ConfigStaff.MIDDLE_NAME + ", " +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.DATE_OF_APPOINTMENT  + ", "  +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.STATUS  +
-                " FROM " + ConfigClient.CLIENT_TABLE +
-                " INNER JOIN " + ConfigAppointment.APPOINTMENT_TABLE +
-                " ON " + ConfigClient.CLIENT_TABLE + "." + ConfigClient.ID_CLIENT +
-                " = " + ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_CLIENT +
-                " INNER JOIN " + ConfigStaff.STAFF_TABLE +
-                " ON " + ConfigStaff.STAFF_TABLE + "." + ConfigStaff.ID_STAFF +
-                " = " + ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_STAFF;
-        System.out.println(select);
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.ID_APPOINTMENT + ", "  +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + ", " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME + ", " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME + ", " +
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.DATE_OF_APPOINTMENT  + ", "  +
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.STATUS + ", "  +
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.DATE_OF_CREATION +
+                " FROM " + ConfigUsers.USERS_TABLE +
+                " INNER JOIN " + ConfigAppointments.APPOINTMENT_TABLE +
+                " ON " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER +
+                " = " + ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.CLIENT_ID +
+                " WHERE " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + " =? AND " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME + " =? AND " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME + " =?";
 
+        try{PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
+            preparedStatement.setString(1, client.getLastName());
+            preparedStatement.setString(2, client.getFirstName());
+            preparedStatement.setString(3, client.getMiddleName());
+            resultSet = preparedStatement.executeQuery();
 
-        try {
-            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
-            ResultSet resultSet =  preparedStatement.executeQuery();
+            while  (resultSet.next()){
+                int idAppointment = resultSet.getInt(ConfigAppointments.ID_APPOINTMENT);
+                String lastName = resultSet.getString(ConfigUsers.LASTNAME);
+                String firstName = resultSet.getString(ConfigUsers.FIRSTNAME);
+                String middleName = resultSet.getString(ConfigUsers.MIDDLE_NAME);
+                Date dateOfAppointment = resultSet.getDate(ConfigAppointments.DATE_OF_APPOINTMENT);
+                String status = resultSet.getString(ConfigAppointments.STATUS);
+                Date dateOfregistration = resultSet.getDate(ConfigAppointments.DATE_OF_CREATION);
 
-            while (resultSet.next()){
-                int appointmentId = resultSet.getInt(ConfigAppointment.ID_APPOINTMENT);
-                String clientLastName = resultSet.getString(ConfigClient.LASTNAME);
-                String clientFirstName = resultSet.getString(ConfigClient.FIRSTNAME);
-                String clientMiddleName = resultSet.getString(ConfigClient.MIDDLE_NAME);
-
-                String staffFirstName = resultSet.getString(ConfigStaff.FIRSTNAME);
-                String staffLastName = resultSet.getString(ConfigStaff.LASTNAME);
-                String staffMiddleName = resultSet.getString(ConfigStaff.MIDDLE_NAME);
-
-                Date dateOfAppointment = resultSet.getDate(ConfigAppointment.DATE_OF_APPOINTMENT);
-                String status = resultSet.getString(ConfigAppointment.STATUS);
-
-//                Client clietn = ClientRepositoryImpl.GET_CLIENT_REPOSITORY_SQL().getClient(new Client(clientLastName, clientFirstName, clientMiddleName));
-                Client client = new Client(clientLastName, clientFirstName, clientMiddleName);
-//                Staff staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().getStaff(new Staff(staffLastName, staffFirstName, staffMiddleName));
-                Staff staff = new Staff(staffLastName, staffFirstName, staffMiddleName);
-
-                APPOINTMENTS.add(new Appointment(appointmentId, status, staff, dateOfAppointment, client, dateOfAppointment));
-
+                staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().getStaff(new Staff(lastName, firstName, middleName));
+                appointment = new Appointment(idAppointment, status, staff, dateOfAppointment, client, dateOfregistration);
+                System.out.println(appointment.printInfo());
             }
-        }catch (SQLException  e) {
-            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
-        return APPOINTMENTS;
+
+        return appointment != null ? true : false;
     }
 
     @Override
-    public Set<Appointment> getAppointment(User user) {
+    public Appointment getAppointment(Appointment appointment) {
 
-        Set<Appointment> clientAppointment = new HashSet<>();
+        ResultSet resultSet = null;
+        Staff staff = null;
 
         String select = "SELECT " +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_APPOINTMENT + ", "  +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.LASTNAME + ", " +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.FIRSTNAME + ", " +
-                ConfigClient.CLIENT_TABLE + "." + ConfigClient.MIDDLE_NAME + ", " +
-                ConfigStaff.STAFF_TABLE + "." + ConfigStaff.FIRSTNAME + ", " +
-                ConfigStaff.STAFF_TABLE + "." + ConfigStaff.LASTNAME + ", " +
-                ConfigStaff.STAFF_TABLE + "." + ConfigStaff.MIDDLE_NAME + ", " +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.DATE_OF_APPOINTMENT  + ", "  +
-                ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.STATUS  +
-                " FROM " + ConfigClient.CLIENT_TABLE +
-                " INNER JOIN " + ConfigAppointment.APPOINTMENT_TABLE +
-                " ON " + ConfigClient.CLIENT_TABLE + "." + ConfigClient.ID_CLIENT +
-                " = " + ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_CLIENT +
-                " INNER JOIN " + ConfigStaff.STAFF_TABLE +
-                " ON " + ConfigStaff.STAFF_TABLE + "." + ConfigStaff.ID_STAFF +
-                " = " + ConfigAppointment.APPOINTMENT_TABLE + "." + ConfigAppointment.ID_STAFF +
-                " WHERE " + ConfigClient.CLIENT_TABLE + "." + ConfigClient.LASTNAME + " = '" +
-                user.getLastName() + "'";
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.ID_APPOINTMENT + ", "  +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + ", " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME + ", " +
+                ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME + ", " +
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.DATE_OF_APPOINTMENT  + ", "  +
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.STATUS + ", "  +
+                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.STATUS +
+                " FROM " + ConfigUsers.USERS_TABLE +
+                " INNER JOIN " + ConfigAppointments.APPOINTMENT_TABLE +
+                " ON " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER +
+                " = " + ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.CLIENT_ID +
+                " WHERE " + ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.ID_APPOINTMENT + " =?";
 
-        System.out.println(select);
-
-
-        try {
-            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
-            ResultSet resultSet =  preparedStatement.executeQuery();
+        try{PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
+            preparedStatement.setInt(1, appointment.getIdAppointment());
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
-                int appointmentId = resultSet.getInt(ConfigAppointment.ID_APPOINTMENT);
-                String clientLastName = resultSet.getString(ConfigClient.LASTNAME);
-                String clientFirstName = resultSet.getString(ConfigClient.FIRSTNAME);
-                String clientMiddleName = resultSet.getString(ConfigClient.MIDDLE_NAME);
+                int idAppointment = resultSet.getInt(ConfigAppointments.ID_APPOINTMENT);
+                String lastName = resultSet.getString(ConfigUsers.LASTNAME);
+                String firstName = resultSet.getString(ConfigUsers.FIRSTNAME);
+                String middleName = resultSet.getString(ConfigUsers.MIDDLE_NAME);
+                Date dateOfAppointment = resultSet.getDate(ConfigAppointments.DATE_OF_APPOINTMENT);
+                String status = resultSet.getString(ConfigAppointments.STATUS);
+                Date dateOfregistration = resultSet.getDate(ConfigAppointments.DATE_OF_CREATION);
 
-                String staffFirstName = resultSet.getString(ConfigStaff.FIRSTNAME);
-                String staffLastName = resultSet.getString(ConfigStaff.LASTNAME);
-                String staffMiddleName = resultSet.getString(ConfigStaff.MIDDLE_NAME);
-
-                Date dateOfAppointment = resultSet.getDate(ConfigAppointment.DATE_OF_APPOINTMENT);
-                String status = resultSet.getString(ConfigAppointment.STATUS);
-
-                Client tmpClient = new Client(clientLastName, clientFirstName, clientMiddleName);
-                Staff tmpStaff = new Staff(staffLastName, staffFirstName, staffMiddleName);
-
-                Appointment appointment = new Appointment(appointmentId, status, tmpStaff, dateOfAppointment, tmpClient, dateOfAppointment);
-                clientAppointment.add(appointment);
+                staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().getStaff(new Staff(lastName, firstName, middleName));
+                appointment = new Appointment(idAppointment, status, staff, dateOfAppointment, appointment.getClient(), dateOfregistration);
             }
-        }catch (SQLException  e) {
-            e.printStackTrace();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
-        return clientAppointment;
+
+        return appointment;
     }
-
-
 
 }
