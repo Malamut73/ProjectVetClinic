@@ -2,9 +2,7 @@ package vetClinic;
 
 import connector.Connector;
 import helper.Helper;
-import moduls.Client;
-import moduls.Staff;
-import moduls.User;
+import moduls.classes.Staff;
 import repository.config.ConfigLogPass;
 import repository.config.ConfigUsers;
 
@@ -12,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
-import java.util.SortedMap;
 
 public class Authentication {
 
@@ -123,9 +120,10 @@ public class Authentication {
                 String passwordDB = resultSet.getString(ConfigLogPass.PASSWORD);
                 String role = resultSet.getString(ConfigUsers.USER_ROLE);
 
-                Helper.getStaff().setAll(userId, lastName, firstName, middleName, loginDB, passwordDB, role);
+//                Helper.getStaff().setAll(userId, lastName, firstName, middleName, loginDB, passwordDB, role);
 
                 staff = new Staff(userId, lastName, firstName, middleName, loginDB, passwordDB, role);
+                Helper.setStaff(staff);
             }
         } catch (SQLException e) {
             e.printStackTrace();

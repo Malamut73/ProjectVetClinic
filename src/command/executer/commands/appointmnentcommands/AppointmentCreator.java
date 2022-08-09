@@ -2,11 +2,9 @@ package command.executer.commands.appointmnentcommands;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
-import moduls.Appointment;
-import moduls.Client;
-import moduls.Staff;
-
-import java.util.Date;
+import moduls.classes.Appointment;
+import moduls.classes.Client;
+import moduls.classes.Staff;
 
 public class AppointmentCreator extends AbstractCommandExecutor {
 

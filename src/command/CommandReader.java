@@ -4,8 +4,8 @@ import command.executer.CommandExecutor;
 import command.executer.commands.appointmnentcommands.AppointmentCreator;
 import command.executer.commands.appointmnentcommands.AppointmentStatusChanger;
 import command.executer.commands.appointmnentcommands.ClientAppointmentViewer;
+import command.executer.commands.folderscommands.*;
 import command.executer.commands.usercommands.*;
-import helper.Helper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +26,13 @@ public class CommandReader {
         COMMAND_EXECUTOR_MAP.put(CommandType.EDIT_CLIENT, new ClientEditor());
         COMMAND_EXECUTOR_MAP.put(CommandType.DELETE_CLIENT, new ClientDeleter());
         COMMAND_EXECUTOR_MAP.put(CommandType.DELETE_STAFF, new StaffDeleter());
+        COMMAND_EXECUTOR_MAP.put(CommandType.CREATE_FOLDER, new FolderCreator());
+        COMMAND_EXECUTOR_MAP.put(CommandType.CREATE_NOTE, new NoteCreator());
+        COMMAND_EXECUTOR_MAP.put(CommandType.FOLDER_AND_NOTE_VIEWER, new FolderAndNoteViewer());
+        COMMAND_EXECUTOR_MAP.put(CommandType.MOVE_TO_OTHER_FOLDER, new MoverOnFolder());
+        COMMAND_EXECUTOR_MAP.put(CommandType.MOVE_FOLDER_UP, new MoverUpFolder());
+        COMMAND_EXECUTOR_MAP.put(CommandType.FIND_USERS_NOTE_WITH_PATH, new AllNotesViewer());
+//        COMMAND_EXECUTOR_MAP.put();
 //        COMMAND_EXECUTOR_MAP.put();
 
 
@@ -76,6 +83,18 @@ public class CommandReader {
             return CommandType.VIEW_STAFF;
         }else if(commandString.contains("delete staff")){
             return CommandType.DELETE_STAFF;
+        }else if(commandString.contains("create folder")){
+            return CommandType.CREATE_FOLDER;
+        }else if(commandString.contains("create note")){
+            return CommandType.CREATE_NOTE;
+        }else if(commandString.contains("ls")){
+            return CommandType.FOLDER_AND_NOTE_VIEWER;
+        }else if(commandString.contains("cd..")){
+            return CommandType.MOVE_FOLDER_UP;
+        }else if(commandString.contains("cd")){
+            return CommandType.MOVE_TO_OTHER_FOLDER;
+        }else if(commandString.contains("view all notes")){
+            return CommandType.FIND_USERS_NOTE_WITH_PATH;
         }
 
         return CommandType.UNDEFINED;

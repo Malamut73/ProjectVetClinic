@@ -2,7 +2,6 @@ package command.executer.commands.usercommands;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
-import moduls.Client;
 
 
 public class ClientsViewer extends AbstractCommandExecutor {
@@ -18,14 +17,6 @@ public class ClientsViewer extends AbstractCommandExecutor {
 
     private int viewClients(String command){
 
-//    int countClients = 0;
-
-
-//        for (Client client :
-//                clientRepository.findAll()) {
-//            countClients++;
-//            System.out.println(client.toString());
-//        }
         if(!clientRepository.findAll()){
             System.out.println("Any clients was found.");
         }

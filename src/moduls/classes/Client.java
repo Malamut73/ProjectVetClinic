@@ -1,4 +1,6 @@
-package moduls;
+package moduls.classes;
+
+import moduls.AbstractClient;
 
 import java.util.Date;
 

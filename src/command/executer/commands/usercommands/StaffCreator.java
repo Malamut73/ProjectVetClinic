@@ -2,7 +2,7 @@ package command.executer.commands.usercommands;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
-import moduls.Staff;
+import moduls.classes.Staff;
 
 public class StaffCreator extends AbstractCommandExecutor {
 

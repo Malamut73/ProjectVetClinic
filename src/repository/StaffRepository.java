@@ -1,8 +1,6 @@
 package repository;
 
-import moduls.Staff;
-
-import java.util.Set;
+import moduls.classes.Staff;
 
 public interface StaffRepository {
 

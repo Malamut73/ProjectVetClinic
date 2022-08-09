@@ -2,9 +2,7 @@ package command.executer.commands.appointmnentcommands;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
-import moduls.Appointment;
-import moduls.Client;
-import moduls.Staff;
+import moduls.classes.Client;
 
 public class ClientAppointmentViewer extends AbstractCommandExecutor {
     @Override

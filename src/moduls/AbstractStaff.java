@@ -1,8 +1,13 @@
 package moduls;
 
+import moduls.classes.Appointment;
+
 import java.util.Date;
+import java.util.Set;
 
 public abstract class AbstractStaff extends User {
+
+
     public AbstractStaff() {
     }
 

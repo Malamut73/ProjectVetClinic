@@ -1,10 +1,9 @@
 package repository.impl;
 
 import connector.Connector;
-import moduls.Appointment;
-import moduls.Client;
-import moduls.Staff;
-import moduls.User;
+import moduls.classes.Appointment;
+import moduls.classes.Client;
+import moduls.classes.Staff;
 import repository.AppointmentRepository;
 import repository.config.ConfigAppointments;
 import repository.config.ConfigUsers;

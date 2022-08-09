@@ -2,7 +2,7 @@ package command.executer.commands.usercommands;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
-import moduls.Client;
+import moduls.classes.Client;
 import repository.impl.ClientRepositoryImpl;
 
 public class ClientDeleter extends AbstractCommandExecutor {

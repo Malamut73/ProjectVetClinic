@@ -2,12 +2,20 @@ package vetClinic;
 
 
 import command.CommandReader;
+import connector.Connector;
 import helper.Helper;
-import repository.config.ConfigAppointments;
+import moduls.classes.Folder;
+import moduls.classes.Note;
+import repository.config.ConfigFolder;
+import repository.config.ConfigLogPass;
+import repository.config.ConfigNote;
 import repository.config.ConfigUsers;
+import repository.impl.FolderRepositoryImpl;
 
-
-import java.util.Optional;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 
 
 public class Main {
@@ -24,6 +32,7 @@ public class Main {
         create client lekhmanov Nikolay Igorevich admin
         create client Rodionov Ivan Vladimirovich admin
         create staff Skitin Artem Mihailovich admin
+        create staff Filipov Aleksey Mihailovich admin
         create appointment Rodionov Ivan Vladimirovich to Skitin Artem Mihailovich on 03.07.2022 22:00
         view clients
         view staff
@@ -39,93 +48,70 @@ public class Main {
         change status 2 to canceled
         change status 3 to waiting for payment
         change status 4 to completed
+        create note test this is first try to create a note - создаем заметку в текущей директории
+        create folder newFolder - создает папку в текущей директориии
+        ls -вывод всех папок и заметок в текущей папке
+        cd name - зайти в папку name
+        view all notes
 
 
 
 
-        create client ...
-        Создает клиента с уникальным id и датой создания, необходимо ввести ФИО, примеры:
-        create client lekhmanov Nikolay Igorevich
-        create client Rodionov Ivan Vladimirovich
-
-        create staff ...
-        создает сотрудника с уникальным id и датой создания, необходимо ввести ФИО логин
-        и пароль для авторизации, примеры:
-        create staff Skitin Artem Mihailovich admin admin
-
-        view clients - оттображает список клиентов
-
-        view staff - оттображает список пероснала
-
-        view appointments - отображает все встречи
-
-
-        delete client ...
-        Удаляет клиента по ФИО
-        delete client Rodionov Ivan Vladimirovich
-
-        edit client ... to ...
-        редактирует данные клиента. Нужно ввести ФИО клиента которого нужно отредактировать и новые ФИО, примеры:
-        edit client Rodionov Ivan Vladimirovich to Korolev Ivan Vladimirovich
-        edit client Korolev Ivan Vladimirovich to Rodionov Ivan Vladimirovich
-
-        create appointment ... to ... on ...
-        Создает встречу клиента к врачу, необходимо ввести ФИО клиента и ФИО врача к которому нужно записаться,
-        а так же дату и время встречи в формате "dd.MM.yyyy hh:mm", у встречи будет уникальный номер,
-        у вновь созданной встречи будет статус новая встреча, примеры:
-        create appointment Rodionov Ivan Vladimirovich to Skitin Artem Mihailovich on 03.07.2022 22:00
-
-        view client appointments ...
-        отображает встречи определенного клиента, необходимо ввести ФИО клиента
-        view client appointments lekhmanov Nikolay Igorevich
-        view client appointments Rodionov Ivan Vladimirovich
-
-        change status ... to ...
-        меняем статус у встречи, поиск встречи осуществляется по номеру, его можно получить с помощью
-        команды view appointment и статус на который хотим поменять
-        (in progress, canceled, waiting for payment, completed), примеры:
-        change status 1 to in progress
-        change status 2 to canceled
-        change status 3 to waiting for payment
-        change status 4 to completed
 
 
 
          */
 
-//        Authentication.authenticate();
-//        if(Helper.getStaff().getRole().equals("admin")) {
-//            CommandReader.startReading();
-//        }else {
-//            System.out.println("Tasks for user action haven't been. \n" +
-//                            "Have a good day)");
-//        }
+        Authentication.authenticate();
+
 
         CommandReader.startReading();
 
 
+
+
+//        ResultSet resultSet;
+//        Note findNote = null;
+////        Folder parentFolder = null;
+//
 //        String select = "SELECT " +
-//                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.ID_APPOINTMENT + ", "  +
 //                ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + ", " +
 //                ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME + ", " +
 //                ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME + ", " +
-//                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.DATE_OF_APPOINTMENT  + ", "  +
-//                ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.STATUS +
-////                ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + ", " +
-////                ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME + ", " +
-////                ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME +
+//                ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME + ", " +
+//                ConfigNote.TABLE_NOTE + "." + ConfigNote.NAME_NOTE + ", " +
+//                ConfigNote.TABLE_NOTE + "." + ConfigNote.TEXT + ", " +
+//                ConfigNote.TABLE_NOTE + "." + ConfigNote.NAME_PARENT_FOLDER +
 //                " FROM " + ConfigUsers.USERS_TABLE +
-//                " INNER JOIN " + ConfigAppointments.APPOINTMENT_TABLE +
-//                " ON " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER +
-//                " = " + ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.CLIENT_ID
-////                +
-////                " INNER JOIN " + ConfigAppointments.APPOINTMENT_TABLE +
-////                " ON " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER +
-////                " = " + ConfigAppointments.APPOINTMENT_TABLE + "." + ConfigAppointments.STAFF_ID
-//                ;
+//                " INNER JOIN " + ConfigNote.TABLE_NOTE +
+//                " ON " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER + " = " +
+//                ConfigNote.TABLE_NOTE + "." + ConfigNote.USER_ID +
+//                " WHERE " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.USER_ROLE + "= 'admin'";
 //        System.out.println(select);
-
-
+//
+//
+//        try{
+//            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
+//            preparedStatement.setString(1, "admin");
+//            resultSet = preparedStatement.executeQuery();
+//            System.out.println(resultSet);
+//
+////            while (resultSet.next()){
+////                int idNote = resultSet.getInt(ConfigNote.ID_NOTE);
+////                String noteName = resultSet.getString(ConfigNote.NAME_NOTE);
+////                String text = resultSet.getString(ConfigNote.TEXT);
+////                Date creatingDate = resultSet.getDate(ConfigNote.CREATION_DATE);
+////                Date updateDate = resultSet.getDate(ConfigNote.UPDATE_DATE);
+////                String nameFolder = resultSet.getString(ConfigNote.NAME_PARENT_FOLDER);
+////                String email = resultSet.getString(ConfigNote.EMAIL);
+////
+//////                Folder folder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(nameFolder) ;
+////                findNote = new Note(idNote, nameFolder, noteName, text, email, creatingDate, updateDate);
+////            }
+//
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
 
     }
 

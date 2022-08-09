@@ -1,4 +1,4 @@
-package moduls;
+package moduls.classes;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

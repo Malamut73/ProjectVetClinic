@@ -1,9 +1,8 @@
 package repository.impl;
 
 import connector.Connector;
-import moduls.Staff;
 import repository.ClientRepository;
-import moduls.Client;
+import moduls.classes.Client;
 import repository.config.ConfigLogPass;
 import repository.config.ConfigUsers;
 

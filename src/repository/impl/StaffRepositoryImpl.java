@@ -1,9 +1,8 @@
 package repository.impl;
 
 import connector.Connector;
-import moduls.Client;
 import repository.StaffRepository;
-import moduls.Staff;
+import moduls.classes.Staff;
 import repository.config.ConfigLogPass;
 import repository.config.ConfigUsers;
 
@@ -137,10 +136,8 @@ public class StaffRepositoryImpl implements StaffRepository {
                 " = ?";
         try{
             PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
-            preparedStatement.setString(1,ConfigUsers.ADMIN_TYPE);
-
+            preparedStatement.setString(1, ConfigUsers.ADMIN_TYPE);
             resultSet = preparedStatement.executeQuery();
-
             while (resultSet.next()){
                 int userId = resultSet.getInt(ConfigUsers.ID_USER);
                 String lastName = resultSet.getString(ConfigUsers.LASTNAME);
@@ -149,7 +146,8 @@ public class StaffRepositoryImpl implements StaffRepository {
                 String loginDB = resultSet.getString(ConfigLogPass.LOGIN);
                 String passwordDB = resultSet.getString(ConfigLogPass.PASSWORD);
                 String role = resultSet.getString(ConfigUsers.USER_ROLE);
-                STAFF.add(new Staff(userId, lastName, firstName, middleName, loginDB, passwordDB, role));
+                staff = new Staff(userId, lastName, firstName, middleName, loginDB, passwordDB, role);
+                System.out.println(staff.toString());
             }
 
         } catch (SQLException throwables) {

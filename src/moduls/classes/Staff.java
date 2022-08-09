@@ -1,9 +1,11 @@
-package moduls;
+package moduls.classes;
+
+import moduls.AbstractStaff;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class Staff extends AbstractStaff  {
+public class Staff extends AbstractStaff {
 
     public Staff() {
     }

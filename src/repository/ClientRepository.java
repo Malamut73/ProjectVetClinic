@@ -1,8 +1,6 @@
 package repository;
 
-import moduls.Client;
-
-import java.util.Set;
+import moduls.classes.Client;
 
 public interface ClientRepository {
 

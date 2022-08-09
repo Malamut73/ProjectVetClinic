@@ -2,12 +2,8 @@ package command.executer.commands.appointmnentcommands;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
-import connector.Connector;
-import moduls.Appointment;
+import moduls.classes.Appointment;
 import repository.impl.AppointmentRepositoryImpl;
-
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class AppointmentStatusChanger extends AbstractCommandExecutor {
 

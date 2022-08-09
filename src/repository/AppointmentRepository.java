@@ -1,10 +1,7 @@
 package repository;
 
-import moduls.Appointment;
-import moduls.Client;
-import moduls.User;
-
-import java.util.Set;
+import moduls.classes.Appointment;
+import moduls.classes.Client;
 
 public interface AppointmentRepository {
 

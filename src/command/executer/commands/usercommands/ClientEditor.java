@@ -3,12 +3,9 @@ package command.executer.commands.usercommands;
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
 
-import moduls.Client;
+import moduls.classes.Client;
 
 import repository.impl.ClientRepositoryImpl;
-
-import java.sql.SQLException;
-import java.sql.Statement;
 
 
 public class ClientEditor extends AbstractCommandExecutor {

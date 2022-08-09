@@ -3,7 +3,7 @@ package command.executer.commands.usercommands;
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
 
-import moduls.Client;
+import moduls.classes.Client;
 
 public class ClientCreator extends AbstractCommandExecutor {
 
