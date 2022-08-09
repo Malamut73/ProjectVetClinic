@@ -17,6 +17,7 @@ public interface FolderRepository {
     Set<Folder> findFolderInFolder();
     void deleteFolder(String folderName);
     List<Folder> foldersPath(String folderName);
-    Folder findUsersFolder();
+//    Folder findUsersFolder();
+    List<String> findFolderPath(String nameFolder);
 
 }

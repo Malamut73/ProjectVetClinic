@@ -1,4 +1,4 @@
-package command.executer.commands.folderscommands;
+package command.executer.commands.notescommand;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
@@ -11,11 +11,11 @@ public class AllNotesViewer extends AbstractCommandExecutor {
 
     @Override
     public CommandType getCommandType() {
-        return CommandType.FIND_USERS_NOTE_WITH_PATH;
+        return CommandType.FIND_All_USERS_NOTE_WITH_PATH;
     }
 
     private int viewAllNotes(){
-        folderRepository.findUsersFolder();
+        noteRepository.findAllNotesAllUsers();
         return 1;
     }
 

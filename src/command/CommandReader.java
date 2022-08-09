@@ -5,6 +5,9 @@ import command.executer.commands.appointmnentcommands.AppointmentCreator;
 import command.executer.commands.appointmnentcommands.AppointmentStatusChanger;
 import command.executer.commands.appointmnentcommands.ClientAppointmentViewer;
 import command.executer.commands.folderscommands.*;
+import command.executer.commands.notescommand.AllNotesViewer;
+import command.executer.commands.notescommand.NoteCreator;
+import command.executer.commands.notescommand.UsersNotesViewer;
 import command.executer.commands.usercommands.*;
 
 import java.util.HashMap;
@@ -31,8 +34,8 @@ public class CommandReader {
         COMMAND_EXECUTOR_MAP.put(CommandType.FOLDER_AND_NOTE_VIEWER, new FolderAndNoteViewer());
         COMMAND_EXECUTOR_MAP.put(CommandType.MOVE_TO_OTHER_FOLDER, new MoverOnFolder());
         COMMAND_EXECUTOR_MAP.put(CommandType.MOVE_FOLDER_UP, new MoverUpFolder());
-        COMMAND_EXECUTOR_MAP.put(CommandType.FIND_USERS_NOTE_WITH_PATH, new AllNotesViewer());
-//        COMMAND_EXECUTOR_MAP.put();
+        COMMAND_EXECUTOR_MAP.put(CommandType.FIND_All_USERS_NOTE_WITH_PATH, new AllNotesViewer());
+        COMMAND_EXECUTOR_MAP.put(CommandType.FIND_USERS_NOTE_WITH_PATH, new UsersNotesViewer());
 //        COMMAND_EXECUTOR_MAP.put();
 
 
@@ -94,6 +97,8 @@ public class CommandReader {
         }else if(commandString.contains("cd")){
             return CommandType.MOVE_TO_OTHER_FOLDER;
         }else if(commandString.contains("view all notes")){
+            return CommandType.FIND_All_USERS_NOTE_WITH_PATH;
+        }else if(commandString.contains("view notes in")){
             return CommandType.FIND_USERS_NOTE_WITH_PATH;
         }
 

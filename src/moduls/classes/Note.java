@@ -9,17 +9,17 @@ public class Note {
     private Folder parentFolder;
     private String name;
     private String text;
-    private String authorEmail;
+//    private String authorEmail;
     private Date creationDate;
     private Date updateDate;
     private int staffId;
 
-    public Note(int idNote, String parentFolder, String name, String text, String authorEmail, Date creationDate, Date updateDate, int staffId) {
+    public Note(int idNote, String parentFolder, String name, String text, Date creationDate, Date updateDate, int staffId) {
         this.idNote = idNote;
         this.parentFolderName = parentFolder;
         this.name = name;
         this.text = text;
-        this.authorEmail = authorEmail;
+//        this.authorEmail = authorEmail;
         this.creationDate = creationDate;
         this.updateDate = updateDate;
         this.staffId = staffId;
@@ -30,7 +30,7 @@ public class Note {
         this.parentFolderName = parentFolder;
         this.name = name;
         this.text = text;
-        this.authorEmail = authorEmail;
+//        this.authorEmail = authorEmail;
     }
 
     public Note(String name, String text, int staffId, String parentFolder) {
@@ -41,6 +41,10 @@ public class Note {
     }
     public void setText(String text){
         this.text = text;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
     }
 
     public int getUserId(){
@@ -79,13 +83,13 @@ public class Note {
         return text;
     }
 
-    public String getAuthorEmail() {
-        return authorEmail;
-    }
-
-    public void setAuthorEmail(String authorEmail) {
-        this.authorEmail = authorEmail;
-    }
+//    public String getAuthorEmail() {
+//        return authorEmail;
+//    }
+//
+//    public void setAuthorEmail(String authorEmail) {
+//        this.authorEmail = authorEmail;
+//    }
 
     @Override
     public String toString() {
@@ -95,7 +99,7 @@ public class Note {
                 ", parentFolder=" + parentFolder +
                 ", name='" + name + '\'' +
                 ", text='" + text + '\'' +
-                ", authorEmail='" + authorEmail + '\'' +
+//                ", authorEmail='" + authorEmail + '\'' +
                 ", creationDate=" + creationDate +
                 ", updateDate=" + updateDate +
                 '}';

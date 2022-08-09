@@ -53,6 +53,7 @@ public class Main {
         ls -вывод всех папок и заметок в текущей папке
         cd name - зайти в папку name
         view all notes
+        view notes in firdFolder
 
 
 

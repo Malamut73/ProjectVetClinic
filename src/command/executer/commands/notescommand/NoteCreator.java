@@ -1,4 +1,4 @@
-package command.executer.commands.folderscommands;
+package command.executer.commands.notescommand;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
