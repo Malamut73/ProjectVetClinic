@@ -30,9 +30,9 @@ public class Helper {
         return HELPER;
     }
     public static Staff getStaff() {
-        if(staff == null){
-            staff = new Staff();
-        }
+//        if(staff == null){
+//            staff = new Staff();
+//        }
         return staff;
     }
     public static void setStaff(Staff staff) {

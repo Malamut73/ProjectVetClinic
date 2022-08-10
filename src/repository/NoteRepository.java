@@ -11,10 +11,8 @@ public interface NoteRepository {
 
     void saveNote(Note note);
     Note findNote(String nameNote);
-    Set<Note> findNoteInFolder();
-    List<Note> findNoteByStaff (Staff staff);
-    boolean findAllNotesAllUsers();
-    boolean findAllUserNotesInFolder(Folder folder);
+    Set<Note> findNotes(Folder folder);
+    List<Note> findNotes(Staff staff);
 
 
 }

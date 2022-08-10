@@ -55,6 +55,7 @@ public class NoteRepositoryImpl implements NoteRepository {
 
         ResultSet resultSet;
         Note findNote = null;
+        Staff staff = null;
 //        Folder parentFolder = null;
 
         String select = "SELECT * FROM " +
@@ -76,8 +77,13 @@ public class NoteRepositoryImpl implements NoteRepository {
                 String nameFolder = resultSet.getString(ConfigNote.NAME_PARENT_FOLDER);
                 int userId = resultSet.getInt(ConfigNote.USER_ID);
 
+                staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().findStaff(userId);
+                if(staff == null){
+                    System.out.println("Staff not found");
+                }
+
 //                Folder folder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(nameFolder) ;
-                findNote = new Note(idNote, nameFolder, noteName, text, creatingDate, updateDate,userId);
+                findNote = new Note(idNote, nameFolder, noteName, text, creatingDate, updateDate,staff);
             }
 
         } catch (SQLException throwables) {
@@ -88,12 +94,13 @@ public class NoteRepositoryImpl implements NoteRepository {
     }
 
     @Override
-    public Set<Note> findNoteInFolder() {
+    public Set<Note> findNotes(Folder folder) {
 
         Set<Note> notes = new HashSet<>();
 
         ResultSet resultSet;
         Note findNote = null;
+        Staff staff = null;
 //        Folder parentFolder = null;
 
         String select = "SELECT * FROM " +
@@ -102,7 +109,7 @@ public class NoteRepositoryImpl implements NoteRepository {
                 ConfigNote.NAME_PARENT_FOLDER + " =?";
         try{
             PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
-            preparedStatement.setString(1, Helper.getCurrentFolder().getName());
+            preparedStatement.setString(1, folder.getName());
             resultSet = preparedStatement.executeQuery();
 //            System.out.println(resultSet);
 
@@ -116,8 +123,13 @@ public class NoteRepositoryImpl implements NoteRepository {
                 String email = resultSet.getString(ConfigNote.EMAIL);
                 int userId = resultSet.getInt(ConfigNote.USER_ID);
 
+                staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().findStaff(userId);
+                if(staff == null){
+                    System.out.println("Staff not found");
+                }
+
 //                Folder folder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(nameFolder) ;
-                findNote = new Note(idNote, nameFolder, noteName, text, creatingDate, updateDate, userId);
+                findNote = new Note(idNote, nameFolder, noteName, text, creatingDate, updateDate, staff);
                 notes.add(findNote);
             }
 
@@ -129,7 +141,7 @@ public class NoteRepositoryImpl implements NoteRepository {
     }
 
     @Override
-    public List<Note> findNoteByStaff (Staff staff) {
+    public List<Note> findNotes(Staff staff) {
         List<Note> notes = new LinkedList<>();
         ResultSet resultSet;
         Note findNote = null;
@@ -156,8 +168,9 @@ public class NoteRepositoryImpl implements NoteRepository {
                 String nameFolder = resultSet.getString(ConfigNote.NAME_PARENT_FOLDER);
                 int userId = resultSet.getInt(ConfigNote.USER_ID);
 
+
 //                Folder folder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(nameFolder) ;
-                findNote = new Note(idNote, nameFolder, noteName, text, creatingDate, updateDate,userId);
+                findNote = new Note(idNote, nameFolder, noteName, text, creatingDate, updateDate,staff);
                 notes.add(findNote);
 
             }
@@ -167,94 +180,6 @@ public class NoteRepositoryImpl implements NoteRepository {
         }
 //        Collections.reverse(notes);
         return notes;
-    }
-
-    @Override
-    public boolean findAllNotesAllUsers(){
-        ResultSet resultSet;
-        Staff staff = null;
-
-
-        String select = "SELECT " +
-                ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + ", " +
-                ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME + ", " +
-                ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME +
-                " FROM " + ConfigUsers.USERS_TABLE +
-                " WHERE " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.USER_ROLE + "=?" +
-                " ORDER BY " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME +
-                " ASC";
-
-        try{
-            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
-            preparedStatement.setString(1, "admin");
-            resultSet = preparedStatement.executeQuery();
-//            System.out.println(preparedStatement);
-
-            while (resultSet.next()){
-                String lastName = resultSet.getString(ConfigUsers.LASTNAME);
-                String firstName = resultSet.getString(ConfigUsers.FIRSTNAME);
-                String middle_name = resultSet.getString(ConfigUsers.MIDDLE_NAME);
-
-                staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().getStaff(new Staff(lastName, firstName, middle_name));
-                List<Note> notes = NoteRepositoryImpl.GET_NOTE_REPOSITORY().findNoteByStaff(staff);
-
-
-                for (Note note :
-                        notes) {
-                    System.out.println("User: " + lastName + " " + firstName + " " + middle_name);
-                    System.out.println("Name of note: " + note.getName());
-                    System.out.println("Date of update: " + note.getUpdateDate());
-                    System.out.println("Text of note: " + note.getText());
-                    System.out.print("Path of note: ");
-                    for (String str :
-                            FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolderPath(note.getParentFolderName())) {
-//                        Collections.reverse(path);
-
-                        System.out.print(str + "/");
-
-                    }
-                    System.out.println("\n==========================================");
-
-                }
-
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return staff == null ? true : false ;
-    }
-
-    @Override
-    public boolean findAllUserNotesInFolder(Folder folder) {
-
-
-
-        Staff staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().getStaff(Helper.getStaff());
-        List<Note> notes = findNoteByStaff(staff);
-        for (Note note:
-             notes  ) {
-            if(note.getParentFolderName().equals(folder.getName())){
-                System.out.println("User: " + staff.getLastName() + " " + staff.getFirstName() + " " + staff.getLastName());
-                System.out.println("Name of note: " + note.getName());
-                System.out.println("Date of update: " + note.getUpdateDate());
-                System.out.println("Text of note: " + note.getText());
-                for (String str :
-                        FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolderPath(note.getParentFolderName())) {
-//                        Collections.reverse(path);
-
-                    System.out.print(str + "/");
-
-                }
-                System.out.println("\n==========================================");
-            }
-        }
-
-
-
-
-        return notes.isEmpty() ? true : false;
     }
 
 

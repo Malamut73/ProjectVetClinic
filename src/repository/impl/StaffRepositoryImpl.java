@@ -1,6 +1,7 @@
 package repository.impl;
 
 import connector.Connector;
+import moduls.classes.Client;
 import repository.StaffRepository;
 import moduls.classes.Staff;
 import repository.config.ConfigLogPass;
@@ -10,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class StaffRepositoryImpl implements StaffRepository {
@@ -54,7 +57,7 @@ public class StaffRepositoryImpl implements StaffRepository {
                         ConfigLogPass.USER_ID + ")" +
                         "VALUES(?, ?, ?)";
 
-        Staff staffDB = getStaff(staff);
+        Staff staffDB = findStaff(staff);
         try {
             PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(insertLogPass);
             preparedStatement.setString(1, staff.getLogin());
@@ -114,8 +117,8 @@ public class StaffRepositoryImpl implements StaffRepository {
         System.out.println("Staff was edit");
     }
     @Override
-    public boolean findAll() {
-
+    public List<Staff> findAll() {
+        List<Staff> staffs = new LinkedList<>();
         Staff staff = null;
         ResultSet resultSet;
 
@@ -132,8 +135,9 @@ public class StaffRepositoryImpl implements StaffRepository {
                 " ON " +
                 ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER + " = " +
                 ConfigLogPass.LOG_PASS_TABLE + "." + ConfigLogPass.USER_ID +
-                " WHERE " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.USER_ROLE +
-                " = ?";
+                " WHERE " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.USER_ROLE + " = ?" +
+                " ORDER BY " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME +
+                " ASC";
         try{
             PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
             preparedStatement.setString(1, ConfigUsers.ADMIN_TYPE);
@@ -147,17 +151,17 @@ public class StaffRepositoryImpl implements StaffRepository {
                 String passwordDB = resultSet.getString(ConfigLogPass.PASSWORD);
                 String role = resultSet.getString(ConfigUsers.USER_ROLE);
                 staff = new Staff(userId, lastName, firstName, middleName, loginDB, passwordDB, role);
-                System.out.println(staff.toString());
+                staffs.add(staff);
             }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-        return staff != null ? true : false;
+        return staffs;
     }
     @Override
-    public Staff getStaff(Staff staff) {
+    public Staff findStaff(Staff staff) {
 
         Staff tmpStaff = null;
         ResultSet resultSet;
@@ -209,6 +213,56 @@ public class StaffRepositoryImpl implements StaffRepository {
 
 
         return tmpStaff;
+    }
+    @Override
+    public Staff findStaff(int id){
+
+        Staff tmpStaff = null;
+        ResultSet resultSet;
+
+        String selectFIO = "SELECT * FROM " + ConfigUsers.USERS_TABLE +
+                " WHERE " +
+                ConfigUsers.ID_USER + " =?";
+        try {
+            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(selectFIO);
+            preparedStatement.setInt(1, id);
+            resultSet =  preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                int userId = resultSet.getInt(ConfigUsers.ID_USER);
+                String lastName = resultSet.getString(ConfigUsers.LASTNAME);
+                String firstName = resultSet.getString(ConfigUsers.FIRSTNAME);
+                String middleName = resultSet.getString(ConfigUsers.MIDDLE_NAME);
+                String role = resultSet.getString(ConfigUsers.USER_ROLE);
+                tmpStaff = new Staff(userId, lastName, firstName, middleName, null, null, role);
+            }
+        }catch (SQLException  e) {
+            e.printStackTrace();
+        }
+
+        return tmpStaff;
+    }
+    @Override
+    public void saveLogAndPass(Staff staff) {
+        String insertLogPass =
+                "INSERT INTO " + ConfigLogPass.LOG_PASS_TABLE + " (" +
+                        ConfigLogPass.LOGIN + ", " +
+                        ConfigLogPass.PASSWORD + ", " +
+                        ConfigLogPass.USER_ID + ")" +
+                        "VALUES(?, ?, ?)";
+
+        Staff staffDB = findStaff(staff);
+        try {
+            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(insertLogPass);
+            preparedStatement.setString(1, staff.getLogin());
+            preparedStatement.setString(2, staff.getPassword());
+            preparedStatement.setInt(3, staffDB.getUserId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Login and password was created");
     }
 
 }

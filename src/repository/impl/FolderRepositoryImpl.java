@@ -47,17 +47,6 @@ public class FolderRepositoryImpl implements FolderRepository {
     }
 
     @Override
-    public boolean findAll() {
-        return false;
-    }
-
-    @Override
-    public void save(Folder newFolder) {
-    }
-    @Override
-    public void findAllPathOfNote() {
-    }
-    @Override
     public Folder findFolder(String name) {
 
 
@@ -88,7 +77,7 @@ public class FolderRepositoryImpl implements FolderRepository {
     }
 
     @Override
-    public Set<Folder> findFolderInFolder() {
+    public Set<Folder> findFolder(Folder folder) {
         Set<Folder> folders = new HashSet<>();
         ResultSet resultSet;
         Folder newFolder = null;
@@ -99,7 +88,7 @@ public class FolderRepositoryImpl implements FolderRepository {
                 " WHERE " +
                 ConfigFolder.PARENT_FOLDER + " =?";
         try{PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
-            preparedStatement.setString(1, Helper.getCurrentFolder().getName());
+            preparedStatement.setString(1, folder.getName());
             resultSet = preparedStatement.executeQuery();
 //            System.out.println(resultSet);
 
@@ -117,26 +106,6 @@ public class FolderRepositoryImpl implements FolderRepository {
         return folders;
     }
 
-    @Override
-    public void deleteFolder(String folder) {
-
-        String select = "DELETE FROM " + ConfigFolder.TABLE_FOLDER +
-                " WHERE " + ConfigFolder.NAME_FOLDER + " =?";
-        try{PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
-            preparedStatement.setString(1, folder);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        System.out.println("Folder was deleted");
-    }
-
-    @Override
-    public List<Folder> foldersPath(String folderName) {
-
-        return null;
-    }
-
         @Override
         public List<String> findFolderPath(String nameFolder){
         List<String> path = new LinkedList<>();
@@ -145,7 +114,7 @@ public class FolderRepositoryImpl implements FolderRepository {
                 return path;
             }
             folderPath(nameFolder, path);
-//            Collections.reverse(path);
+            Collections.reverse(path);
             return path;
     }
 

@@ -28,13 +28,14 @@ public class ClientCreator extends AbstractCommandExecutor {
 
         Client newClient = new Client (lastName, firstName, middleName, login, password, "user");
 
-        if(!(clientRepository.getClient(newClient) == null)){
+        if(!(clientRepository.findClient(newClient) == null)){
 
             System.out.println("Client already exists");
             return -1;
 
         }else{
             clientRepository.saveClient(newClient);
+            clientRepository.saveLogAndPass(newClient);
         }
         return 1;
     }

@@ -24,7 +24,7 @@ public class StaffDeleter extends AbstractCommandExecutor {
         var firstName = wordArray[3];
         var middleName = wordArray[4];
 
-        Staff staffDB = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().getStaff(new Staff(lastName, firstName, middleName));
+        Staff staffDB = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().findStaff(new Staff(lastName, firstName, middleName));
         if(staffDB == null){
             System.out.println("Staff not found");
             return -1;

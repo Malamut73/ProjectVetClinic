@@ -23,6 +23,11 @@ public class Staff extends AbstractStaff {
     }
 
     @Override
+    public String getFullName() {
+        return super.getFullName();
+    }
+
+    @Override
     public boolean equals(Object o) {
         return super.equals(o);
     }

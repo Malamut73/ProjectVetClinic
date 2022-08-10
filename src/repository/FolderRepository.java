@@ -10,14 +10,8 @@ import java.util.Set;
 public interface FolderRepository {
 
     void saveFolder(Folder folder);
-    boolean findAll();
-    void save(Folder newFolder);
-    void findAllPathOfNote();
     Folder findFolder(String folderName);
-    Set<Folder> findFolderInFolder();
-    void deleteFolder(String folderName);
-    List<Folder> foldersPath(String folderName);
-//    Folder findUsersFolder();
+    Set<Folder> findFolder(Folder folder);
     List<String> findFolderPath(String nameFolder);
 
 }

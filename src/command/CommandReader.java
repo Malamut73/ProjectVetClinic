@@ -5,9 +5,9 @@ import command.executer.commands.appointmnentcommands.AppointmentCreator;
 import command.executer.commands.appointmnentcommands.AppointmentStatusChanger;
 import command.executer.commands.appointmnentcommands.ClientAppointmentViewer;
 import command.executer.commands.folderscommands.*;
-import command.executer.commands.notescommand.AllNotesViewer;
+import command.executer.commands.notescommand.NotesViewer;
 import command.executer.commands.notescommand.NoteCreator;
-import command.executer.commands.notescommand.UsersNotesViewer;
+import command.executer.commands.notescommand.NotesInFolderViewer;
 import command.executer.commands.usercommands.*;
 
 import java.util.HashMap;
@@ -34,8 +34,8 @@ public class CommandReader {
         COMMAND_EXECUTOR_MAP.put(CommandType.FOLDER_AND_NOTE_VIEWER, new FolderAndNoteViewer());
         COMMAND_EXECUTOR_MAP.put(CommandType.MOVE_TO_OTHER_FOLDER, new MoverOnFolder());
         COMMAND_EXECUTOR_MAP.put(CommandType.MOVE_FOLDER_UP, new MoverUpFolder());
-        COMMAND_EXECUTOR_MAP.put(CommandType.FIND_All_USERS_NOTE_WITH_PATH, new AllNotesViewer());
-        COMMAND_EXECUTOR_MAP.put(CommandType.FIND_USERS_NOTE_WITH_PATH, new UsersNotesViewer());
+        COMMAND_EXECUTOR_MAP.put(CommandType.FIND_All_USERS_NOTE_WITH_PATH, new NotesViewer());
+        COMMAND_EXECUTOR_MAP.put(CommandType.FIND_USERS_NOTE_WITH_PATH, new NotesInFolderViewer());
 //        COMMAND_EXECUTOR_MAP.put();
 
 
@@ -82,7 +82,7 @@ public class CommandReader {
             return CommandType.EDIT_APPOINTMENT;
         }else if(commandString.contains("view client appointments")){
             return CommandType.VIEW_CLIENT_APPOINTMENTS;
-        }else if(commandString.contains("view staff")){
+        }else if(commandString.contains("view staffs")){
             return CommandType.VIEW_STAFF;
         }else if(commandString.contains("delete staff")){
             return CommandType.DELETE_STAFF;

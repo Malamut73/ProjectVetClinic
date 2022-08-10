@@ -26,7 +26,7 @@ public class StaffCreator extends AbstractCommandExecutor {
 
         Staff newStaff = new Staff(lastName, firstName, middleName, login, password, "admin");
 
-        if(!(staffRepository.getStaff(newStaff) == null)){
+        if(!(staffRepository.findStaff(newStaff) == null)){
 
             System.out.println("Staff already exists");
             return -1;

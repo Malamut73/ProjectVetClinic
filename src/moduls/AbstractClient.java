@@ -1,8 +1,6 @@
 package moduls;
 
-import java.util.Date;
-
-public abstract class AbstractClient extends User {
+public abstract class AbstractClient extends AbstractUser {
 
     public AbstractClient(String lastName, String firstName, String middleName) {
         super(lastName, firstName, middleName);

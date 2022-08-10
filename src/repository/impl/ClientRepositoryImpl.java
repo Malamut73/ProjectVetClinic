@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class ClientRepositoryImpl implements ClientRepository {
@@ -39,25 +41,6 @@ public class ClientRepositoryImpl implements ClientRepository {
             preparedStatement.setString(2, client.getFirstName());
             preparedStatement.setString(3, client.getMiddleName());
             preparedStatement.setString(4, client.getRole());
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        String insertLogPass =
-                "INSERT INTO " + ConfigLogPass.LOG_PASS_TABLE + " (" +
-                        ConfigLogPass.LOGIN + ", " +
-                        ConfigLogPass.PASSWORD + ", " +
-                        ConfigLogPass.USER_ID + ")" +
-                        "VALUES(?, ?, ?)";
-
-        Client staffDB = getClient(client);
-        try {
-            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(insertLogPass);
-            preparedStatement.setString(1, client.getLogin());
-            preparedStatement.setString(2, client.getPassword());
-            preparedStatement.setInt(3, staffDB.getUserId());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -114,24 +97,13 @@ public class ClientRepositoryImpl implements ClientRepository {
         System.out.println("Client was edit");
     }
     @Override
-    public boolean findAll() {
+    public List<Client> findAll() {
 
+        List<Client> clients = new LinkedList<>();
         Client client = null;
         ResultSet resultSet;
 
-        String select = "SELECT " +
-                ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER + ", " +
-                ConfigUsers.USERS_TABLE + "." + ConfigUsers.LASTNAME + ", " +
-                ConfigUsers.USERS_TABLE + "." + ConfigUsers.FIRSTNAME + ", " +
-                ConfigUsers.USERS_TABLE + "." + ConfigUsers.MIDDLE_NAME + ", " +
-                ConfigLogPass.LOG_PASS_TABLE + "." + ConfigLogPass.LOGIN + ", " +
-                ConfigLogPass.LOG_PASS_TABLE + "." + ConfigLogPass.PASSWORD + ", " +
-                ConfigUsers.USERS_TABLE + "." + ConfigUsers.USER_ROLE +
-                " FROM " + ConfigUsers.USERS_TABLE +
-                " INNER JOIN " + ConfigLogPass.LOG_PASS_TABLE +
-                " ON " +
-                ConfigUsers.USERS_TABLE + "." + ConfigUsers.ID_USER + " = " +
-                ConfigLogPass.LOG_PASS_TABLE + "." + ConfigLogPass.USER_ID +
+        String select = "SELECT * FROM " + ConfigUsers.USERS_TABLE +
                 " WHERE " + ConfigUsers.USERS_TABLE + "." + ConfigUsers.USER_ROLE +
                 " = ?";
         try{
@@ -147,18 +119,18 @@ public class ClientRepositoryImpl implements ClientRepository {
                 String passwordDB = resultSet.getString(ConfigLogPass.PASSWORD);
                 String role = resultSet.getString(ConfigUsers.USER_ROLE);
                 client = new Client(userId, lastName, firstName, middleName, loginDB, passwordDB, role);
+                clients.add(client);
                 System.out.println(client.toString());
-//                CLIENTS.add(new Client(userId, lastName, firstName, middleName, loginDB, passwordDB, role));
             }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-        return client != null ? true : false ;
+        return clients;
     }
     @Override
-    public Client getClient(Client client) {
+    public Client findClient(Client client) {
 
         Client tmpClient = null;
         ResultSet resultSet;
@@ -187,29 +159,78 @@ public class ClientRepositoryImpl implements ClientRepository {
             e.printStackTrace();
         }
 
-        if(!(tmpClient == null)){
-            String selectLP = "SELECT * FROM " + ConfigLogPass.LOG_PASS_TABLE +
-                    " WHERE " +
-                    ConfigLogPass.USER_ID + " =?";
-            try {
-                PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(selectLP);
-                preparedStatement.setInt(1, tmpClient.getUserId());
-                resultSet =  preparedStatement.executeQuery();
-
-                while (resultSet.next()){
-                    String loginDB = resultSet.getString(ConfigLogPass.LOGIN);
-                    String passwordDB = resultSet.getString(ConfigLogPass.PASSWORD);
-                    tmpClient.setLogin(loginDB);
-                    tmpClient.setPassword(passwordDB);
-                }
-            }catch (SQLException  e) {
-                e.printStackTrace();
-            }
-        }
-
-
+//        if(!(tmpClient == null)){
+//            String selectLP = "SELECT * FROM " + ConfigLogPass.LOG_PASS_TABLE +
+//                    " WHERE " +
+//                    ConfigLogPass.USER_ID + " =?";
+//            try {
+//                PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(selectLP);
+//                preparedStatement.setInt(1, tmpClient.getUserId());
+//                resultSet =  preparedStatement.executeQuery();
+//
+//                while (resultSet.next()){
+//                    String loginDB = resultSet.getString(ConfigLogPass.LOGIN);
+//                    String passwordDB = resultSet.getString(ConfigLogPass.PASSWORD);
+//                    tmpClient.setLogin(loginDB);
+//                    tmpClient.setPassword(passwordDB);
+//                }
+//            }catch (SQLException  e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         return tmpClient;
+    }
+    @Override
+    public void saveLogAndPass(Client client){
+        String insertLogPass =
+                "INSERT INTO " + ConfigLogPass.LOG_PASS_TABLE + " (" +
+                        ConfigLogPass.LOGIN + ", " +
+                        ConfigLogPass.PASSWORD + ", " +
+                        ConfigLogPass.USER_ID + ")" +
+                        "VALUES(?, ?, ?)";
+
+        Client clientDB = findClient(client);
+        try {
+            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(insertLogPass);
+            preparedStatement.setString(1, client.getLogin());
+            preparedStatement.setString(2, client.getPassword());
+            preparedStatement.setInt(3, clientDB.getUserId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Login and password was created");
+    }
+
+    public Client getLogAndPass(String login, String password){
+
+        ResultSet resultSet;
+
+        String selectLP = "SELECT * FROM " + ConfigLogPass.LOG_PASS_TABLE +
+                " WHERE " +
+                ConfigLogPass.LOGIN + " =? AND " +
+                ConfigLogPass.PASSWORD + " =?";
+        try {
+            PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(selectLP);
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            resultSet =  preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                String loginDB = resultSet.getString(ConfigLogPass.LOGIN);
+                String passwordDB = resultSet.getString(ConfigLogPass.PASSWORD);
+                int userId = resultSet.getInt(ConfigLogPass.USER_ID);
+
+                Client client = findClient(userId)
+
+                client.setPassword(passwordDB);
+            }
+        }catch (SQLException  e) {
+            e.printStackTrace();
+        }
+        return client;
     }
 
 }

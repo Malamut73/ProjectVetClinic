@@ -32,8 +32,8 @@ public class AppointmentCreator extends AbstractCommandExecutor {
 
         String status = "new appointment";
 
-        Client client = clientRepository.getClient(new Client(lastName, firstName, middleName));
-        Staff staff = staffRepository.getStaff(new Staff(staffLastName, staffFirstName, staffMiddleName));
+        Client client = clientRepository.findClient(new Client(lastName, firstName, middleName));
+        Staff staff = staffRepository.findStaff(new Staff(staffLastName, staffFirstName, staffMiddleName));
 
         if(client == null){
             System.out.println("Client not found");

@@ -3,11 +3,7 @@ package command.executer.commands.notescommand;
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
 import helper.Helper;
-import moduls.classes.Folder;
 import moduls.classes.Note;
-import repository.impl.FolderRepositoryImpl;
-
-import java.util.Optional;
 
 public class NoteCreator extends AbstractCommandExecutor {
     @Override

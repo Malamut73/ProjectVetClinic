@@ -1,10 +1,9 @@
 package moduls;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public abstract class User{
+public abstract class AbstractUser {
 
 //        SimpleDateFormat dateCreationFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -17,16 +16,16 @@ public abstract class User{
         private String role;
         private Date dateOfRegistration;
 
-        public User() {
+        public AbstractUser() {
         }
 
-        public User(String lastName, String firstName, String middleName) {
+        public AbstractUser(String lastName, String firstName, String middleName) {
                 this.lastName = lastName;
                 this.firstName = firstName;
                 this.middleName = middleName;
         }
 
-        public User(String lastName, String firstName, String middleName, String login, String password, String role) {
+        public AbstractUser(String lastName, String firstName, String middleName, String login, String password, String role) {
                 this.lastName = lastName;
                 this.firstName = firstName;
                 this.middleName = middleName;
@@ -35,7 +34,7 @@ public abstract class User{
                 this.role = role;
         }
 
-        public User(int userId, String lastName, String firstName, String middleName, String login, String password, String role) {
+        public AbstractUser(int userId, String lastName, String firstName, String middleName, String login, String password, String role) {
                 this.userId = userId;
                 this.lastName = lastName;
                 this.firstName = firstName;
@@ -43,6 +42,10 @@ public abstract class User{
                 this.login = login;
                 this.password = password;
                 this.role = role;
+        }
+
+        public void setUserId(int userId) {
+                this.userId = userId;
         }
 
         public String getFullName(){
@@ -98,7 +101,7 @@ public abstract class User{
         public boolean equals(Object o) {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
-                User user = (User) o;
+                AbstractUser user = (AbstractUser) o;
                 return Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(middleName, user.middleName);
         }
         @Override

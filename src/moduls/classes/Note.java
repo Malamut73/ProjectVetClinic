@@ -13,8 +13,9 @@ public class Note {
     private Date creationDate;
     private Date updateDate;
     private int staffId;
+    private Staff staff;
 
-    public Note(int idNote, String parentFolder, String name, String text, Date creationDate, Date updateDate, int staffId) {
+    public Note(int idNote, String parentFolder, String name, String text, Date creationDate, Date updateDate, Staff staff) {
         this.idNote = idNote;
         this.parentFolderName = parentFolder;
         this.name = name;
@@ -22,15 +23,7 @@ public class Note {
 //        this.authorEmail = authorEmail;
         this.creationDate = creationDate;
         this.updateDate = updateDate;
-        this.staffId = staffId;
-    }
-
-    public Note(int idNote, String name, String text, String parentFolder, String authorEmail) {
-        this.idNote = idNote;
-        this.parentFolderName = parentFolder;
-        this.name = name;
-        this.text = text;
-//        this.authorEmail = authorEmail;
+        this.staff = staff;
     }
 
     public Note(String name, String text, int staffId, String parentFolder) {
@@ -83,13 +76,12 @@ public class Note {
         return text;
     }
 
-//    public String getAuthorEmail() {
-//        return authorEmail;
-//    }
-//
-//    public void setAuthorEmail(String authorEmail) {
-//        this.authorEmail = authorEmail;
-//    }
+    public String description(){
+        return "Name of note: " + name +
+                "\n text of note: " + text +
+                "\n user: " + staff.getFullName() +
+                "\n date: " + updateDate;
+    }
 
     @Override
     public String toString() {

@@ -2,6 +2,7 @@ package command.executer.commands.usercommands;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
+import moduls.classes.Staff;
 
 public class StaffViewer extends AbstractCommandExecutor {
     @Override
@@ -16,8 +17,14 @@ public class StaffViewer extends AbstractCommandExecutor {
 
     private int viewStaff(String command) {
 
-        if(!staffRepository.findAll()){
+
+        if(staffRepository.findAll().isEmpty()){
             System.out.println("Any staff was found.");
+        }else{
+            for (Staff staff :
+                    staffRepository.findAll()) {
+                System.out.println(staff.toString());
+            }
         }
         return 1;
 

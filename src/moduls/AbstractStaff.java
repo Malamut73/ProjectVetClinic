@@ -1,11 +1,6 @@
 package moduls;
 
-import moduls.classes.Appointment;
-
-import java.util.Date;
-import java.util.Set;
-
-public abstract class AbstractStaff extends User {
+public abstract class AbstractStaff extends AbstractUser {
 
 
     public AbstractStaff() {
@@ -21,5 +16,10 @@ public abstract class AbstractStaff extends User {
 
     public AbstractStaff(String lastName, String firstName, String middleName, String login, String password, String role) {
         super(lastName, firstName, middleName, login, password, role);
+    }
+
+    @Override
+    public String getFullName() {
+        return super.getFullName();
     }
 }
