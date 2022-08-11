@@ -22,12 +22,10 @@ public class FolderAndNoteViewer extends AbstractCommandExecutor {
         Folder currentFolder = Helper.getCurrentFolder();
 
         System.out.println("Current folder is: " + Helper.getCurrentFolder().getName());
-        for (var folder :
-                folderRepository.findFolder(currentFolder)) {
+        for (var folder : folderRepository.findFolder(currentFolder)) {
             System.out.println("Folder: " + folder.getName());
         }
-        for (var note :
-                NoteRepositoryImpl.GET_NOTE_REPOSITORY().findNotes(currentFolder)) {
+        for (var note : NoteRepositoryImpl.GET_NOTE_REPOSITORY().findNotes(currentFolder)) {
             System.out.println("Note: " + note.getName());
         }
 

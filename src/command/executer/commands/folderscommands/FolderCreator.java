@@ -15,27 +15,20 @@ public class FolderCreator extends AbstractCommandExecutor {
     public CommandType getCommandType() {
         return null;
     }
-    // create folder folderName
+
     private int createFolder(String command){
 
         String[] lines = command.split(" ");
-        String folderName = lines[2];
-//        String parentFolderName = lines[3];
-
+        var folderName = lines[2];
+        var newFolder = new Folder(folderName, Helper.getCurrentFolder().getName());
         var folder = folderRepository.findFolder(folderName);
+
         if(folder != null){
             System.out.println("Folder already exist");
             return -1;
         }
-//        var parentFolder = folderRepository.findFolder(parentFolderName);
-//        if(parentFolder == null){
-//            System.out.println("Parent folder not exist");
-//            return -1;
-//        }
 
-        Folder newFolder = new Folder(folderName, Helper.getCurrentFolder().getName());
         folderRepository.saveFolder(newFolder);
-
 
         return 1;
     }

@@ -2,10 +2,10 @@ package command.executer.commands.usercommands;
 
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
-import moduls.classes.Staff;
-import repository.impl.StaffRepositoryImpl;
+import moduls.classes.User;
+import repository.impl.UserRepositoryImpl;
 
-public class StaffDeleter extends AbstractCommandExecutor {
+public class UserDeleter extends AbstractCommandExecutor {
     @Override
     public int execute(String command) {
         return deleteStaff(command);
@@ -13,23 +13,23 @@ public class StaffDeleter extends AbstractCommandExecutor {
 
     @Override
     public CommandType getCommandType() {
-        return CommandType.DELETE_STAFF;
+        return CommandType.DELETE_USER;
     }
 
     private int deleteStaff(String command){
-        //         delete client Rodionov Ivan Vladimirovich
 
         var wordArray = command.split(" ");
         var lastName = wordArray[2];
         var firstName = wordArray[3];
         var middleName = wordArray[4];
+        var userDB = UserRepositoryImpl.GET_USER_REPOSITORY_SQL().findUser(new User(lastName, firstName, middleName));
 
-        Staff staffDB = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().findStaff(new Staff(lastName, firstName, middleName));
-        if(staffDB == null){
-            System.out.println("Staff not found");
+        if(userDB == null){
+            System.out.printf("%s not found \n", userDB.getRole());
             return -1;
         }
-        StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().removeStaff(staffDB);
+
+        UserRepositoryImpl.GET_USER_REPOSITORY_SQL().removeUser(userDB);
 
         return 1;
     }

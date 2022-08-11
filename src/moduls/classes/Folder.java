@@ -8,11 +8,6 @@ public class Folder {
     private String parentFolderName;
     private Folder parentFolder;
 
-    public Folder(String name, Folder parentFolder) {
-        this.name = name;
-        this.parentFolder = parentFolder;
-    }
-
     public Folder(String name, String parentFolderName) {
         this.name = name;
         this.parentFolderName = parentFolderName;
@@ -21,19 +16,15 @@ public class Folder {
     public String getParentFolderName() {
         return parentFolderName;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public Folder getParentFolder() {
         return parentFolder;
     }
-
     public void setParentFolder(Folder parentFolder) {
         this.parentFolder = parentFolder;
     }
@@ -50,7 +41,6 @@ public class Folder {
     public int hashCode() {
         return Objects.hash(name);
     }
-
 
     @Override
     public String toString() {

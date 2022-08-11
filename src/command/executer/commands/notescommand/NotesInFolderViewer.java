@@ -3,11 +3,10 @@ package command.executer.commands.notescommand;
 import command.CommandType;
 import command.executer.AbstractCommandExecutor;
 import helper.Helper;
-import moduls.classes.Folder;
 import moduls.classes.Note;
-import moduls.classes.Staff;
 import repository.impl.FolderRepositoryImpl;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class NotesInFolderViewer extends AbstractCommandExecutor {
@@ -24,34 +23,50 @@ public class NotesInFolderViewer extends AbstractCommandExecutor {
     private int viewUsersNotesInFolder(String command) {
 
         String[] lines = command.split(" ");
-        String folderName = lines[3];
+        var folderName = lines[3];
+        var staff = Helper.getUser();
+        var findFolder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(folderName);
+        var notes = noteRepository.findNotes(staff);
 
-        Staff staff = Helper.getStaff();
-        Folder folder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(folderName);
 
-        if (folder == null) {
+        if (findFolder == null) {
             System.out.println("Folder not found");
             return -1;
-        }else{
-            List<Note> notes = noteRepository.findNotes(staff);
-            if (notes.isEmpty()) {
-                System.out.println("Any notes was found");
-                return -1;
-            } else {
-                for (Note note :
-                        notes) {
-                    if (note.getParentFolderName().equals(folderName)) {
-                        System.out.println(note.description());
-                        for (String path :
-                                folderRepository.findFolderPath(folderName)) {
-                            System.out.print(path + "/");
-                        }
-                        System.out.println("\n--------------------");
-                    }
-                    System.out.println("--------------------");
-                }
+        }
+        if (notes.isEmpty()) {
+            System.out.println("Any notes was found");
+            return -1;
+        }
+
+        viewNotes(folderName, notes);
+
+        return 1;
+    }
+
+    private void viewNotes(String folderName, List<Note> notes){
+
+        List<Note> notesInFolder = new LinkedList<>();
+
+        for (Note note : notes) {
+            if (note.getParentFolderName().equals(folderName)) {
+                notesInFolder.add(note);
             }
-            return 1;
+            if(notesInFolder.isEmpty()){
+                System.out.println("Any notes in current folder not found");
+                break;
+            }
+
+            System.out.println(note.description());
+            printDescription(folderName);
         }
     }
+
+    private void printDescription (String folderName){
+
+        for (String path : folderRepository.findFolderPath(folderName)) {
+            System.out.print(path + "/");
+        }
+        System.out.println("\n--------------------");
+    }
+
 }

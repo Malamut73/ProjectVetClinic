@@ -1,13 +1,11 @@
 package repository.impl;
 
 import connector.Connector;
-import helper.Helper;
 import moduls.classes.Folder;
 import moduls.classes.Note;
-import moduls.classes.Staff;
+import moduls.classes.User;
 import repository.NoteRepository;
 import repository.config.ConfigNote;
-import repository.config.ConfigUsers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +24,6 @@ public class NoteRepositoryImpl implements NoteRepository {
     @Override
     public void saveNote(Note note) {
 
-
         String insert = "INSERT INTO " + ConfigNote.TABLE_NOTE + " (" +
                 ConfigNote.NAME_NOTE + ", " +
                 ConfigNote.TEXT + ", " +
@@ -41,8 +38,6 @@ public class NoteRepositoryImpl implements NoteRepository {
             preparedStatement.setInt(4, note.getUserId());
             preparedStatement.executeUpdate();
 
-
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -55,8 +50,7 @@ public class NoteRepositoryImpl implements NoteRepository {
 
         ResultSet resultSet;
         Note findNote = null;
-        Staff staff = null;
-//        Folder parentFolder = null;
+        User staff = null;
 
         String select = "SELECT * FROM " +
                 ConfigNote.TABLE_NOTE +
@@ -66,7 +60,6 @@ public class NoteRepositoryImpl implements NoteRepository {
             PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
             preparedStatement.setString(1, nameNote);
             resultSet = preparedStatement.executeQuery();
-//            System.out.println(resultSet);
 
             while (resultSet.next()){
                 int idNote = resultSet.getInt(ConfigNote.ID_NOTE);
@@ -77,19 +70,15 @@ public class NoteRepositoryImpl implements NoteRepository {
                 String nameFolder = resultSet.getString(ConfigNote.NAME_PARENT_FOLDER);
                 int userId = resultSet.getInt(ConfigNote.USER_ID);
 
-                staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().findStaff(userId);
+                staff = UserRepositoryImpl.GET_USER_REPOSITORY_SQL().findUser(userId);
                 if(staff == null){
                     System.out.println("Staff not found");
                 }
-
-//                Folder folder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(nameFolder) ;
                 findNote = new Note(idNote, nameFolder, noteName, text, creatingDate, updateDate,staff);
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return findNote;
     }
 
@@ -100,8 +89,7 @@ public class NoteRepositoryImpl implements NoteRepository {
 
         ResultSet resultSet;
         Note findNote = null;
-        Staff staff = null;
-//        Folder parentFolder = null;
+        User staff = null;
 
         String select = "SELECT * FROM " +
                 ConfigNote.TABLE_NOTE +
@@ -111,7 +99,6 @@ public class NoteRepositoryImpl implements NoteRepository {
             PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
             preparedStatement.setString(1, folder.getName());
             resultSet = preparedStatement.executeQuery();
-//            System.out.println(resultSet);
 
             while (resultSet.next()){
                 int idNote = resultSet.getInt(ConfigNote.ID_NOTE);
@@ -123,12 +110,10 @@ public class NoteRepositoryImpl implements NoteRepository {
                 String email = resultSet.getString(ConfigNote.EMAIL);
                 int userId = resultSet.getInt(ConfigNote.USER_ID);
 
-                staff = StaffRepositoryImpl.GET_STAFF_REPOSITORY_SQL().findStaff(userId);
+                staff = UserRepositoryImpl.GET_USER_REPOSITORY_SQL().findUser(userId);
                 if(staff == null){
                     System.out.println("Staff not found");
                 }
-
-//                Folder folder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(nameFolder) ;
                 findNote = new Note(idNote, nameFolder, noteName, text, creatingDate, updateDate, staff);
                 notes.add(findNote);
             }
@@ -141,11 +126,10 @@ public class NoteRepositoryImpl implements NoteRepository {
     }
 
     @Override
-    public List<Note> findNotes(Staff staff) {
+    public List<Note> findNotes(User staff) {
         List<Note> notes = new LinkedList<>();
         ResultSet resultSet;
         Note findNote = null;
-//        Folder parentFolder = null;
 
         String select = "SELECT * FROM " +
                 ConfigNote.TABLE_NOTE +
@@ -157,7 +141,6 @@ public class NoteRepositoryImpl implements NoteRepository {
             PreparedStatement preparedStatement = Connector.getConnection().prepareStatement(select);
             preparedStatement.setInt(1, staff.getUserId());
             resultSet = preparedStatement.executeQuery();
-//            System.out.println(resultSet);
 
             while (resultSet.next()){
                 int idNote = resultSet.getInt(ConfigNote.ID_NOTE);
@@ -168,17 +151,13 @@ public class NoteRepositoryImpl implements NoteRepository {
                 String nameFolder = resultSet.getString(ConfigNote.NAME_PARENT_FOLDER);
                 int userId = resultSet.getInt(ConfigNote.USER_ID);
 
-
-//                Folder folder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(nameFolder) ;
                 findNote = new Note(idNote, nameFolder, noteName, text, creatingDate, updateDate,staff);
                 notes.add(findNote);
-
             }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-//        Collections.reverse(notes);
         return notes;
     }
 

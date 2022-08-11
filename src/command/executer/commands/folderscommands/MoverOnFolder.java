@@ -19,14 +19,13 @@ public class MoverOnFolder extends AbstractCommandExecutor {
     private int moveToFolder(String command){
 
         String[] lines = command.split(" ");
-        String fileName = lines[1];
+        var fileName = lines[1];
+        var folder = folderRepository.findFolder(fileName);
 
-        Folder folder = folderRepository.findFolder(fileName);
         if( folder == null){
             System.out.println("Folder not exist");
         }
         Helper.setCurrentFolder(folder);
-//        System.out.println(Helper.getCurrentFolder().getName());
         System.out.println("Current Folder is: " + folder.getName());
 
 

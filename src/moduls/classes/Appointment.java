@@ -13,84 +13,20 @@ public class Appointment {
 
     private int idAppointment;
     private Date dateOfAppointment;
-    private Staff staff;
+    private User staff;
     private String status;
     private Date dateOfCreation;
-    private Client client;
+    private User client;
 
 
     public Appointment() {
     }
 
-    public Appointment(Date dateOfAppointment, Staff staff, String status, Client client) {
-        this.idAppointment = idAppointment;
+    public Appointment(Date dateOfAppointment, User staff, String status, User client) {
         this.dateOfAppointment = dateOfAppointment;
         this.staff = staff;
         this.status = status;
         this.client = client;
-    }
-    public Appointment(String dateOfAppointment, Staff staff, String status, Client client) {
-        this.idAppointment = idAppointment;
-        this.dateOfAppointment = getDate(dateOfAppointment);
-        this.staff = staff;
-        this.status = status;
-        this.client = client;
-    }
-    public Appointment(int idAppointment, String status) {
-        this.idAppointment = idAppointment;
-        this.status = status;
-    }
-    public Appointment(int idAppointment, String appointmentType, Staff Staff, Date dateOfAppointment, Client Client, Date dateOfCreation){
-        this.dateOfAppointment = dateOfAppointment;
-        this.staff = Staff;
-        this.status = appointmentType;
-        this.client = Client;
-        this.idAppointment = idAppointment;
-        this.dateOfCreation = dateOfCreation;
-    }
-    public Staff getStaff() {
-        return staff;
-    }
-    public Client getClient() {
-        return client;
-    }
-    private Date getDate(String date){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
-        Date parsedDate = null;
-        try {
-            parsedDate = simpleDateFormat.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return parsedDate;
-    }
-
-    public void setIdAppointment(int idAppointment) {
-        this.idAppointment = idAppointment;
-    }
-    public void setDateOfAppointment(Date dateOfAppointment) {
-        this.dateOfAppointment = dateOfAppointment;
-    }
-    public void setDateAndTimeAppointment(String dateAndTimeAppointment){
-        this.dateOfAppointment = getDate(dateAndTimeAppointment);
-    }
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    public void setDateOfCreation(Date dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
-    }
-    public void setClient(Client client) {
-        this.client = client;
-    }
-    public String getStatus() {
-        return status;
-    }
-    public int getIdAppointment() {
-        return idAppointment;
     }
 
     public String printInfo(){
@@ -98,7 +34,6 @@ public class Appointment {
                 client.getFullName() + " appointment to " +
                 staff.getFullName() + " " + dateAndTimeAppointment.format(dateOfAppointment);
     }
-
     public Timestamp getSqlDate(){
 
         java.sql.Timestamp dateForSql = new java.sql.Timestamp(dateOfAppointment.getTime());
@@ -106,7 +41,27 @@ public class Appointment {
 
     }
 
-
+    public User getStaff() {
+        return staff;
+    }
+    public User getClient() {
+        return client;
+    }
+    public void setIdAppointment(int idAppointment) {
+        this.idAppointment = idAppointment;
+    }
+    public void setStaff(User staff) {
+        this.staff = staff;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public int getIdAppointment() {
+        return idAppointment;
+    }
 
     @Override
     public boolean equals(Object o) {

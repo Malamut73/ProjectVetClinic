@@ -16,24 +16,11 @@ public abstract class AbstractUser {
         private String role;
         private Date dateOfRegistration;
 
-        public AbstractUser() {
-        }
-
         public AbstractUser(String lastName, String firstName, String middleName) {
                 this.lastName = lastName;
                 this.firstName = firstName;
                 this.middleName = middleName;
         }
-
-        public AbstractUser(String lastName, String firstName, String middleName, String login, String password, String role) {
-                this.lastName = lastName;
-                this.firstName = firstName;
-                this.middleName = middleName;
-                this.login = login;
-                this.password = password;
-                this.role = role;
-        }
-
         public AbstractUser(int userId, String lastName, String firstName, String middleName, String login, String password, String role) {
                 this.userId = userId;
                 this.lastName = lastName;
@@ -44,12 +31,21 @@ public abstract class AbstractUser {
                 this.role = role;
         }
 
+        public String getFullName(){
+                return lastName + " " + firstName + " " + middleName;
+        }
+
         public void setUserId(int userId) {
                 this.userId = userId;
         }
-
-        public String getFullName(){
-                return lastName + " " + firstName + " " + middleName;
+        public void setLastName(String lastName) {
+                this.lastName = lastName;
+        }
+        public void setFirstName(String firstName) {
+                this.firstName = firstName;
+        }
+        public void setMiddleName(String middleName) {
+                this.middleName = middleName;
         }
         public String getFirstName() {
                 return firstName;
@@ -81,20 +77,11 @@ public abstract class AbstractUser {
         public void setRole(String role) {
                 this.role = role;
         }
-        public void setAll(int userId, String lastName, String firstName, String middleName, String login, String password, String role){
-                this.userId = userId;
-                this.lastName = lastName;
-                this.firstName = firstName;
-                this.middleName = middleName;
-                this.login = login;
-                this.password = password;
-                this.role = role;
-        }
 
         @Override
         public String toString() {
 
-                return userId + " " + lastName + " " + firstName + " " + middleName + " " + login + " " + password + " " + role;
+                return userId + " " + lastName + " " + firstName + " " + middleName;
 
         }
         @Override

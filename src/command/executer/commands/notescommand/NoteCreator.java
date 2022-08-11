@@ -20,26 +20,20 @@ public class NoteCreator extends AbstractCommandExecutor {
 
         String[] lines = command.split(" ");
 
-        String nameOfNote = lines[2];
-//        String nameOfFolder = lines[3];
-
-        StringBuilder noteTextSb = new StringBuilder();
-        for (int i = 3; i < lines.length; i++) {
+        var nameOfNote = lines[2];
+        var noteTextSb = new StringBuilder();
+            for (int i = 3; i < lines.length; i++) {
             noteTextSb.append(lines[i] + " ");
         }
         var noteText = noteTextSb.toString();
+        var otherNote = noteRepository.findNote(nameOfNote);
+        var newNote = new Note(nameOfNote, noteText, Helper.getUser().getUserId(), Helper.getCurrentFolder().getName());
 
-//        Folder folder = FolderRepositoryImpl.GET_FOLDER_REPOSITORY().findFolder(nameOfFolder);
-//        if(folder == null){
-//            System.out.println("Folder not found");
-//            return -1;
-//        }
-        Note otherNote = noteRepository.findNote(nameOfNote);
         if(!(otherNote == null)){
             System.out.println("Note with this name already exist");
             return -1;
         }
-        Note newNote = new Note(nameOfNote, noteText, Helper.getStaff().getUserId(), Helper.getCurrentFolder().getName());
+
         noteRepository.saveNote(newNote);
 
         return 1;
