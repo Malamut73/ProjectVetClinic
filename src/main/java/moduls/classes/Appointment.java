@@ -1,11 +1,16 @@
 package moduls.classes;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+@Getter
+@Setter
 public class Appointment {
 
     SimpleDateFormat dateAndTimeAppointment = new SimpleDateFormat("dd.MM.yyyy hh:mm");
@@ -18,10 +23,8 @@ public class Appointment {
     private Date dateOfCreation;
     private User client;
 
-
     public Appointment() {
     }
-
     public Appointment(Date dateOfAppointment, User staff, String status, User client) {
         this.dateOfAppointment = dateOfAppointment;
         this.staff = staff;
@@ -39,28 +42,6 @@ public class Appointment {
         java.sql.Timestamp dateForSql = new java.sql.Timestamp(dateOfAppointment.getTime());
         return dateForSql;
 
-    }
-
-    public User getStaff() {
-        return staff;
-    }
-    public User getClient() {
-        return client;
-    }
-    public void setIdAppointment(int idAppointment) {
-        this.idAppointment = idAppointment;
-    }
-    public void setStaff(User staff) {
-        this.staff = staff;
-    }
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    public String getStatus() {
-        return status;
-    }
-    public int getIdAppointment() {
-        return idAppointment;
     }
 
     @Override

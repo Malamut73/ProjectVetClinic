@@ -1,8 +1,12 @@
 package helper;
 
+import lombok.Getter;
+import lombok.Setter;
 import moduls.classes.Folder;
 import moduls.classes.User;
 
+@Getter
+@Setter
 public class Helper {
 
     private static final Helper HELPER = new Helper();
@@ -10,7 +14,7 @@ public class Helper {
     private static User user;
     private static boolean FIRST_ENTER;
     private static Folder parentFolder = new Folder("root", "null");
-    private static Folder currentFolder = getParentFolder();
+    private static Folder currentFolder = parentFolder;
 
     private Helper() {
     }

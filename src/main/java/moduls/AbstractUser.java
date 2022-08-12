@@ -1,11 +1,15 @@
 package moduls;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 import java.util.Objects;
 
+@Getter
+@Setter
 public abstract class AbstractUser {
 
-//        SimpleDateFormat dateCreationFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         private int userId;
         private String lastName;
@@ -35,54 +39,9 @@ public abstract class AbstractUser {
                 return lastName + " " + firstName + " " + middleName;
         }
 
-        public void setUserId(int userId) {
-                this.userId = userId;
-        }
-        public void setLastName(String lastName) {
-                this.lastName = lastName;
-        }
-        public void setFirstName(String firstName) {
-                this.firstName = firstName;
-        }
-        public void setMiddleName(String middleName) {
-                this.middleName = middleName;
-        }
-        public String getFirstName() {
-                return firstName;
-        }
-        public String getLastName() {
-                return lastName;
-        }
-        public String getMiddleName() {
-                return middleName;
-        }
-        public int getUserId() {
-                return userId;
-        }
-        public String getLogin() {
-                return login;
-        }
-        public void setLogin(String login) {
-                this.login = login;
-        }
-        public String getPassword() {
-                return password;
-        }
-        public void setPassword(String password) {
-                this.password = password;
-        }
-        public String getRole() {
-                return role;
-        }
-        public void setRole(String role) {
-                this.role = role;
-        }
-
         @Override
         public String toString() {
-
                 return userId + " " + lastName + " " + firstName + " " + middleName;
-
         }
         @Override
         public boolean equals(Object o) {

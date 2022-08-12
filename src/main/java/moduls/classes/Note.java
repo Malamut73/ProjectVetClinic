@@ -1,7 +1,12 @@
 package moduls.classes;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
+@Getter
+@Setter
 public class Note {
 
     private int idNote;
@@ -11,7 +16,7 @@ public class Note {
     private String text;
     private Date creationDate;
     private Date updateDate;
-    private int staffId;
+    private int userId;
     private User staff;
 
     public Note(int idNote, String parentFolder, String name, String text, Date creationDate, Date updateDate, User staff) {
@@ -27,7 +32,7 @@ public class Note {
         this.parentFolderName = parentFolder;
         this.name = name;
         this.text = text;
-        this.staffId = staffId;
+        this.userId = staffId;
     }
 
     public String description(){
@@ -36,41 +41,6 @@ public class Note {
                 "\n user: " + staff.getFullName() +
                 "\n date: " + updateDate;
     }
-
-    public void setText(String text){
-        this.text = text;
-    }
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-    public int getUserId(){
-        return staffId;
-    }
-    public void setDay(Date date){
-        this.creationDate = date;
-    }
-    public String getParentFolderName() {
-        return parentFolderName;
-    }
-    public void setParentFolderName(String parentFolderName) {
-        this.parentFolderName = parentFolderName;
-    }
-    public Folder getParentFolder() {
-        return parentFolder;
-    }
-    public void setParentFolder(Folder parentFolder) {
-        this.parentFolder = parentFolder;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getText() {
-        return text;
-    }
-
 
     @Override
     public String toString() {
